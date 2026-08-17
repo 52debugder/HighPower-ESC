@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<JScopeProject>
+    <FileVersion major="1" minor="1" />
+    <Project>
+        <Configuration>
+            <JLink>
+                <Options IsRTTSession="1" IsRTTWithTimeStamp="0" SamplingPeriod="1000" Connection="1" SerialNo="0" IP="" TargetDevice="PAC5210" TargetInterface="SWD" InterfaceSpeed="60000" />
+            </JLink>
+            <ElfFile Name="" />
+            <DataFile Name="" />
+            <RawFile Name="" />
+            <Scope>
+                <Options TimeResolutionUs="100000" />
+            </Scope>
+        </Configuration>
+        <Windows>
+            <Graph Show="1" />
+            <Watch Show="1" />
+        </Windows>
+        <SelectedSymbols>
+            <Symbol>
+                <Options Name="Symbol No 1" Address="0x00000000" Type="2 Byte signed RTT Data" TypeID="11" Size="2" GraphColorRed="255" GraphColorGreen="215" GraphColorBlue="0" YMinSampled="-32768" YMaxSampled="32767" YAvgSampled="0" Offset="4" ShowInGraph="1" YOffset="200" IsAutoConfig="1" YResolution="20000" MaxValue="40000" File="None" Scope="1" DrawStyle="0" />
+            </Symbol>
+            <Symbol>
+                <Options Name="Symbol No 2" Address="0x00000000" Type="2 Byte signed RTT Data" TypeID="11" Size="2" GraphColorRed="0" GraphColorGreen="255" GraphColorBlue="0" YMinSampled="-32768" YMaxSampled="32767" YAvgSampled="0" Offset="6" ShowInGraph="1" YOffset="200" IsAutoConfig="1" YResolution="20000" MaxValue="40000" File="None" Scope="1" DrawStyle="0" />
+            </Symbol>
+            <Symbol>
+                <Options Name="Symbol No 3" Address="0x00000000" Type="2 Byte signed RTT Data" TypeID="11" Size="2" GraphColorRed="0" GraphColorGreen="0" GraphColorBlue="176" YMinSampled="-1022" YMaxSampled="1022" YAvgSampled="0" Offset="8" ShowInGraph="1" YOffset="200" IsAutoConfig="1" YResolution="1000" MaxValue="2000" File="None" Scope="1" DrawStyle="0" />
+            </Symbol>
+            <Symbol>
+                <Options Name="Symbol No 4" Address="0x00000000" Type="2 Byte signed RTT Data" TypeID="11" Size="2" GraphColorRed="160" GraphColorGreen="32" GraphColorBlue="240" YMinSampled="-1022" YMaxSampled="1023" YAvgSampled="0" Offset="10" ShowInGraph="1" YOffset="200" IsAutoConfig="1" YResolution="1000" MaxValue="2000" File="None" Scope="1" DrawStyle="0" />
+            </Symbol>
+        </SelectedSymbols>
+    </Project>
+</JScopeProject>

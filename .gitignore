@@ -1,0 +1,49 @@
+# Build directories
+**/build/
+**/Objects/
+**/Listings/
+**/Debug/
+**/Release/
+**/bin/
+**/obj/
+**/out/
+
+# Compiler outputs
+*.o
+*.d
+*.crf
+*.lst
+*.map
+*.axf
+*.elf
+*.bin
+*.hex
+*.s19
+*.lnp
+*.dep
+*.htm
+*.objlist
+
+# Logs and temporary files
+*.log
+*.lock
+*.tmp
+*.bak
+*.orig
+*.old
+
+# User-local IDE files
+*.uvguix.*
+.vscode/ipch/
+.vscode/.browse.VC.db*
+.vscode/.ccls-cache/
+
+# EIDE local user/cache files
+**/.eide/log/
+**/.eide.usr.ctx.json
+
+# Keep project configs
+!**/.eide/
+!**/.pack/
+!**/.cmsis/
+!**/.vscode/

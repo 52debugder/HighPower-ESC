@@ -1,0 +1,237 @@
+version: "4.1"
+name: LKS07x_1Motor
+type: ARM
+deviceName: LKS32MC071CBT8
+packDir: .pack/Linko/LKS07x.1.2.0
+srcDirs:
+  - 7_UserFocPort
+virtualFolder:
+  name: <virtual_root>
+  files: []
+  folders:
+    - name: 1_LKS_FwLib
+      files:
+        - path: 1_LKS_FwLib/LKS32MC07x_Periph_Driver/Source/lks32mc07x_adc.c
+        - path: 1_LKS_FwLib/LKS32MC07x_Periph_Driver/Source/lks32mc07x_can.c
+        - path: 1_LKS_FwLib/LKS32MC07x_Periph_Driver/Source/lks32mc07x_cmp.c
+        - path: 1_LKS_FwLib/LKS32MC07x_Periph_Driver/Source/lks32mc07x_dac.c
+        - path: 1_LKS_FwLib/LKS32MC07x_Periph_Driver/Source/lks32mc07x_dma.c
+        - path: 1_LKS_FwLib/LKS32MC07x_Periph_Driver/Source/lks32mc07x_dsp.c
+        - path: 1_LKS_FwLib/LKS32MC07x_Periph_Driver/Source/lks32mc07x_exti.c
+        - path: 1_LKS_FwLib/LKS32MC07x_Periph_Driver/Source/lks32MC07x_flash.c
+        - path: 1_LKS_FwLib/LKS32MC07x_Periph_Driver/Source/lks32mc07x_gpio.c
+        - path: 1_LKS_FwLib/LKS32MC07x_Periph_Driver/Source/lks32mc07x_hall.c
+        - path: 1_LKS_FwLib/LKS32MC07x_Periph_Driver/Source/lks32mc07x_mcpwm.c
+        - path: 1_LKS_FwLib/LKS32MC07x_Periph_Driver/Source/lks32mc07x_nvr.lib
+        - path: 1_LKS_FwLib/LKS32MC07x_Periph_Driver/Source/lks32mc07x_opa.c
+        - path: 1_LKS_FwLib/LKS32MC07x_Periph_Driver/Source/lks32mc07x_qep.c
+        - path: 1_LKS_FwLib/LKS32MC07x_Periph_Driver/Source/lks32mc07x_sif.c
+        - path: 1_LKS_FwLib/LKS32MC07x_Periph_Driver/Source/lks32mc07x_sys.c
+        - path: 1_LKS_FwLib/LKS32MC07x_Periph_Driver/Source/lks32mc07x_tim.c
+        - path: 1_LKS_FwLib/LKS32MC07x_Periph_Driver/Source/lks32mc07x_tmp.c
+        - path: 1_LKS_FwLib/LKS32MC07x_Periph_Driver/Source/lks32mc07x_uart.c
+        - path: 1_LKS_FwLib/LKS32MC07x_Periph_Driver/Source/lks32mc07x_wake.c
+        - path: 2_HardwareDriverLayer/startup_lks32mc07x.s
+      folders: []
+    - name: 2_HardwareDriverLayer
+      files:
+        - path: 2_HardwareDriverLayer/HardwareDriver/hardware_init.c
+        - path: 2_HardwareDriverLayer/HardwareDriver/interrupt.c
+        - path: 2_HardwareDriverLayer/HardwareDriver/main.c
+        - path: 2_HardwareDriverLayer/HardwareDriver/System_Init.c
+        - path: 2_HardwareDriverLayer/HardwareDriver/HAL_DEF.c
+      folders: []
+    - name: 3_CommonServiceLayer
+      files:
+        - path: 3_CommonServiceLayer/ComFuncs.c
+        - path: 3_CommonServiceLayer/PubData_DriverInstance.c
+        - path: 3_CommonServiceLayer/PubData_HD_MD.c
+        - path: 3_CommonServiceLayer/PubData_MA_UA.c
+        - path: 3_CommonServiceLayer/PubData_MD_MA.c
+        - path: 3_CommonServiceLayer/MC_math.c
+      folders: []
+    - name: 4_MotorDriveLayer
+      files:
+        - path: 4_MotorDriveLayer/FOC_Drive.c
+        - path: 4_MotorDriveLayer/FocDef.c
+        - path: 4_MotorDriveLayer/PID_regulators.c
+        - path: 4_MotorDriveLayer/Lib/lks07x_Lib_R_V02_0_9aOpt_AC5.lib
+      folders: []
+    - name: 5_MotorAppLayer
+      files:
+        - path: 5_MotorAppLayer/Main_Drive.c
+        - path: 5_MotorAppLayer/PowerCalculation.c
+        - path: 5_MotorAppLayer/Process_Control.c
+        - path: 5_MotorAppLayer/state_machine.c
+        - path: 5_MotorAppLayer/MA_Static_Variable.c
+        - path: 5_MotorAppLayer/MA_interface.c
+        - path: 5_MotorAppLayer/usr/fault_detection.c
+        - path: 5_MotorAppLayer/usr/Task_Scheduler.c
+      folders: []
+    - name: 6_UserAppLayer
+      files:
+        - path: 6_UserAppLayer/UA_interface.c
+        - path: 6_UserAppLayer/UA_stateMachine.c
+        - path: 6_UserAppLayer/UA_usrApp.c
+      folders: []
+    - name: Include
+      files:
+        - path: Include/MC_Parameter_M0.h
+        - path: Include/MC_configure_FB_data.h
+        - path: Include/project_config.h
+        - path: Include/hardware_config.h
+        - path: Include/MC_GlobalDef_M0.h
+        - path: Include/project_mcu.h
+      folders: []
+    - name: RTT_debug
+      files:
+        - path: RTT/SEGGER_RTT.c
+        - path: RTT/SEGGER_RTT_printf.c
+        - path: RTT/SEGGER_RTT.h
+      folders: []
+dependenceList: []
+outDir: build
+miscInfo:
+  uid: 99589eb96160d0e38edad83d0ce040a5
+targets:
+  Linko_07x_Project:
+    cppPreprocessAttrs:
+      defineList:
+        - LKS32MC071CBT8
+      incList:
+        - .
+        - Include
+        - 1_LKS_FwLib/LKS32MC07x_Periph_Driver/Include
+        - 2_HardwareDriverLayer/Header
+        - 3_CommonServiceLayer/Header
+        - 5_MotorAppLayer/Header
+        - 4_MotorDriveLayer/Header
+        - 6_UserAppLayer/Header
+        - RTT
+        - 5_MotorAppLayer/usr/Header
+        - ../../../keil5/ARM/PACK/ARM/CMSIS/5.0.1/CMSIS/Include
+        - .cmsis/include
+        - RTE/_Linko_07x_Project
+        - 7_UserFocPort/foc_lib/inc
+        - 7_UserFocPort/foc_lib/src
+        - .pack/Linko/LKS07x.1.2.0/Device/Include
+      libList: []
+    excludeList: []
+    settings:
+      debugger: cortex-debug
+    toolchain: AC5
+    toolchainConfigMap:
+      AC5:
+        archExtensions: ""
+        cpuType: Cortex-M0
+        floatingPointHardware: none
+        options:
+          version: 4
+          afterBuildTasks: []
+          asm-compiler:
+            defines: []
+          beforeBuildTasks: []
+          c/cpp-compiler:
+            CXX_FLAGS: --diag_suppress=1 --diag_suppress=1295
+            C_FLAGS: --diag_suppress=1 --diag_suppress=1295
+            c99-mode: true
+            gnu-extensions: true
+            one-elf-section-per-function: true
+            optimization: level-0
+            warnings: all-warnings
+          global:
+            output-debug-info: enable
+            use-microLIB: true
+          linker:
+            $outputTaskExcludes:
+              - .bin
+            output-format: elf
+            ro-base: "0x00000000"
+            rw-base: "0x20000000"
+            xo-base: ""
+        scatterFilePath: Objects/lks07x_Project.sct
+        storageLayout:
+          RAM:
+            - id: 1
+              isChecked: false
+              mem:
+                size: "0x0"
+                startAddr: "0x0"
+              noInit: false
+              tag: RAM
+            - id: 2
+              isChecked: false
+              mem:
+                size: "0x0"
+                startAddr: "0x0"
+              noInit: false
+              tag: RAM
+            - id: 3
+              isChecked: false
+              mem:
+                size: "0x0"
+                startAddr: "0x0"
+              noInit: false
+              tag: RAM
+            - id: 1
+              isChecked: true
+              mem:
+                size: "0x3000"
+                startAddr: "0x20000000"
+              noInit: false
+              tag: IRAM
+            - id: 2
+              isChecked: false
+              mem:
+                size: "0x0"
+                startAddr: "0x0"
+              noInit: false
+              tag: IRAM
+          ROM:
+            - id: 1
+              isChecked: false
+              isStartup: false
+              mem:
+                size: "0x0"
+                startAddr: "0x0"
+              tag: ROM
+            - id: 2
+              isChecked: false
+              isStartup: false
+              mem:
+                size: "0x0"
+                startAddr: "0x0"
+              tag: ROM
+            - id: 3
+              isChecked: false
+              isStartup: false
+              mem:
+                size: "0x0"
+                startAddr: "0x0"
+              tag: ROM
+            - id: 1
+              isChecked: true
+              isStartup: true
+              mem:
+                size: "0x1fe00"
+                startAddr: "0x0"
+              tag: IROM
+            - id: 2
+              isChecked: false
+              isStartup: false
+              mem:
+                size: "0x200"
+                startAddr: "0x1fe00"
+              tag: IROM
+        useCustomScatterFile: false
+    uploadConfigMap:
+      JLink:
+        baseAddr: ""
+        bin: ""
+        cpuInfo:
+          cpuName: "null"
+          vendor: "null"
+        otherCmds: ""
+        proType: 1
+        speed: 8000
+    uploader: JLink
