@@ -68,16 +68,16 @@
 
 /* ADC相电流采样时序，硬件相关 ------------------------------------------------ */
 /* Porting Application Notice 注意采样序列 ------------------------------------ */
-#define ADC0_CURRETN_A_CHANNEL         (ADC0_CHANNEL_OPA1)//2
-#define ADC0_CURRETN_B_CHANNEL         (ADC0_CHANNEL_OPA2)//1
-#define ADC0_CURRETN_C_CHANNEL         (ADC0_CHANNEL_OPA0)
+#define ADC0_CURRETN_A_CHANNEL         (ADC_CHANNEL_7)
+#define ADC0_CURRETN_B_CHANNEL         (ADC_CHANNEL_8)
+#define ADC0_CURRETN_C_CHANNEL         (ADC_CHANNEL_9)
 
 #define ADC_1SHUNT_CURR_CH             (ADC0_CHANNEL_OPA3)  /* 单电阻采样电流通道 */
 
-#define ADC_BUS_VOL_CHANNEL            (ADC_CHANNEL_12)      /* 母线电压ADC采样通道 */
+#define ADC_BUS_VOL_CHANNEL            (ADC_CHANNEL_5)      /* 母线电压ADC采样通道 */
 #define M0_ADC_BUS_CURR_CH             (ADC0_CHANNEL_OPA3)  /* 母线电流ADC采样通道 */
 
-#define ADC0_TEMP_CHANNEL              (ADC_CHANNEL_7)      /* 温度检测 */
+#define ADC0_TEMP_CHANNEL              (ADC_CHANNEL_4)      /* 温度检测 */
 #define ADC0_VSP_CHANNEL               (ADC_CHANNEL_9)      /*电位器VSP检测通道*/
 
 
