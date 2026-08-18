@@ -28,19 +28,6 @@ static uint16_t foc_lks_hw_limit_duty(uint16_t duty)
     return (duty > PWM_ARR) ? PWM_ARR : duty;
 }
 
-static int16_t foc_lks_hw_duty_to_half_width(uint16_t duty)
-{
-    uint32_t half_width;
-
-    duty = foc_lks_hw_limit_duty(duty);
-    half_width = ((uint32_t)duty * (uint32_t)PWM_PERIOD_M0) / ((uint32_t)PWM_ARR * 2U);
-
-    if (half_width > (uint32_t)(PWM_PERIOD_M0 / 2U))
-        half_width = (uint32_t)(PWM_PERIOD_M0 / 2U);
-
-    return (int16_t)half_width;
-}
-
 static uint16_t foc_lks_hw_limit_adc(int32_t adc)
 {
     if (adc < 0)
@@ -52,22 +39,18 @@ static uint16_t foc_lks_hw_limit_adc(int32_t adc)
 
 static void foc_lks_hw_write_pwm(uint16_t duty_u, uint16_t duty_v, uint16_t duty_w)
 {
-    int16_t half_u = foc_lks_hw_duty_to_half_width(duty_u);
-    int16_t half_v = foc_lks_hw_duty_to_half_width(duty_v);
-    int16_t half_w = foc_lks_hw_duty_to_half_width(duty_w);
-
     MCPWM0_PRT = 0x0000DEAD;
 
     /* 现有LKS FOC代码中，B相对应TH0，A相对应TH1，C相对应TH2。
        用户FOC HAL使用U/V/W命名，因此这里映射为U->A，V->B，W->C。 */
-    MCPWM0_TH10 = (int16_t)(-half_u);
-    MCPWM0_TH11 = half_u;
+    MCPWM0_TH00 = (int16_t)(-duty_u);
+    MCPWM0_TH01 = duty_u;
 
-    MCPWM0_TH00 = (int16_t)(-half_v);
-    MCPWM0_TH01 = half_v;
+    MCPWM0_TH10 = (int16_t)(-duty_v);
+    MCPWM0_TH11 = duty_v;
 
-    MCPWM0_TH20 = (int16_t)(-half_w);
-    MCPWM0_TH21 = half_w;
+    MCPWM0_TH20 = (int16_t)(-duty_w);
+    MCPWM0_TH21 = duty_w;
 
     MCPWM0_UPDATE = 0xFFU;
     MCPWM0_PRT = 0x00000000;
