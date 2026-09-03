@@ -340,7 +340,7 @@
               <MiscControls></MiscControls>
               <Define></Define>
               <Undefine></Undefine>
-              <IncludePath>.\Include;.\1_LKS_FwLib\LKS32MC07x_Periph_Driver\Include;.\2_HardwareDriverLayer\Header;.\3_CommonServiceLayer\Header;.\5_MotorAppLayer\Header;.\4_MotorDriveLayer\Header;.\6_UserAppLayer\Header;.\RTT;.\5_MotorAppLayer\usr\Header;D:\keil5\ARM\PACK\ARM\CMSIS\5.0.1\CMSIS\Include</IncludePath>
+              <IncludePath>.\Include;.\1_LKS_FwLib\LKS32MC07x_Periph_Driver\Include;.\2_HardwareDriverLayer\Header;.\3_CommonServiceLayer\Header;.\5_MotorAppLayer\Header;.\4_MotorDriveLayer\Header;.\6_UserAppLayer\Header;.\RTT;.\5_MotorAppLayer\usr\Header;D:\keil5\ARM\PACK\ARM\CMSIS\5.0.1\CMSIS\Include;.\.pack\Linko\LKS07x.1.2.0\Device\Include;.\3_UserFocPort\foc_lib\inc;.\3_UserFocPort\foc_lib\src</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -760,6 +760,96 @@
               <FileName>MC_math.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\3_CommonServiceLayer\MC_math.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>3_UserFocPort</GroupName>
+          <Files>
+            <File>
+              <FileName>field_weakening.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\3_UserFocPort\foc_lib\inc\field_weakening.h</FilePath>
+            </File>
+            <File>
+              <FileName>foc.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\3_UserFocPort\foc_lib\inc\foc.h</FilePath>
+            </File>
+            <File>
+              <FileName>foc_config.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\3_UserFocPort\foc_lib\inc\foc_config.h</FilePath>
+            </File>
+            <File>
+              <FileName>foc_hal.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\3_UserFocPort\foc_lib\inc\foc_hal.h</FilePath>
+            </File>
+            <File>
+              <FileName>foc_lks_hw.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\3_UserFocPort\foc_lib\inc\foc_lks_hw.h</FilePath>
+            </File>
+            <File>
+              <FileName>foc_math.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\3_UserFocPort\foc_lib\inc\foc_math.h</FilePath>
+            </File>
+            <File>
+              <FileName>foc_types.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\3_UserFocPort\foc_lib\inc\foc_types.h</FilePath>
+            </File>
+            <File>
+              <FileName>foc_utils.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\3_UserFocPort\foc_lib\inc\foc_utils.h</FilePath>
+            </File>
+            <File>
+              <FileName>hfi.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\3_UserFocPort\foc_lib\inc\hfi.h</FilePath>
+            </File>
+            <File>
+              <FileName>smo.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\3_UserFocPort\foc_lib\inc\smo.h</FilePath>
+            </File>
+            <File>
+              <FileName>field_weakening.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\3_UserFocPort\foc_lib\src\field_weakening.c</FilePath>
+            </File>
+            <File>
+              <FileName>foc.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\3_UserFocPort\foc_lib\src\foc.c</FilePath>
+            </File>
+            <File>
+              <FileName>foc_lks_hw.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\3_UserFocPort\foc_lib\src\foc_lks_hw.c</FilePath>
+            </File>
+            <File>
+              <FileName>foc_math.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\3_UserFocPort\foc_lib\src\foc_math.c</FilePath>
+            </File>
+            <File>
+              <FileName>hfi.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\3_UserFocPort\foc_lib\src\hfi.c</FilePath>
+            </File>
+            <File>
+              <FileName>smo.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\3_UserFocPort\foc_lib\src\smo.c</FilePath>
+            </File>
+            <File>
+              <FileName>user_foc_hal.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\3_UserFocPort\foc_lib\src\user_foc_hal.c</FilePath>
             </File>
           </Files>
         </Group>

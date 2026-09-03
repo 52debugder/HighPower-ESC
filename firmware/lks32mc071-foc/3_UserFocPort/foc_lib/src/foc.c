@@ -1219,7 +1219,7 @@ foc_state_t Foc_GetCurrentLoopDebug(uint8_t motor_num, foc_current_loop_debug_t 
 {
     foc_handle_t *motor;
 
-    if (debug == 0 || motor_num == 0U || motor_num > MAX_MOTOR_NUM)
+    if (debug == 0 || motor_num > MAX_MOTOR_NUM)
         return FOC_ERR_INVALID_PARAM;
 
     motor = &FOC_Motor[motor_num];

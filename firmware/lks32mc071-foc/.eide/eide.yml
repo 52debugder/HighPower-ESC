@@ -3,8 +3,7 @@ name: LKS07x_1Motor
 type: ARM
 deviceName: LKS32MC071CBT8
 packDir: .pack/Linko/LKS07x.1.2.0
-srcDirs:
-  - 7_UserFocPort
+srcDirs: []
 virtualFolder:
   name: <virtual_root>
   files: []
@@ -49,6 +48,26 @@ virtualFolder:
         - path: 3_CommonServiceLayer/PubData_MA_UA.c
         - path: 3_CommonServiceLayer/PubData_MD_MA.c
         - path: 3_CommonServiceLayer/MC_math.c
+      folders: []
+    - name: 3_UserFocPort
+      files:
+        - path: 3_UserFocPort/foc_lib/inc/field_weakening.h
+        - path: 3_UserFocPort/foc_lib/inc/foc.h
+        - path: 3_UserFocPort/foc_lib/inc/foc_config.h
+        - path: 3_UserFocPort/foc_lib/inc/foc_hal.h
+        - path: 3_UserFocPort/foc_lib/inc/foc_lks_hw.h
+        - path: 3_UserFocPort/foc_lib/inc/foc_math.h
+        - path: 3_UserFocPort/foc_lib/inc/foc_types.h
+        - path: 3_UserFocPort/foc_lib/inc/foc_utils.h
+        - path: 3_UserFocPort/foc_lib/inc/hfi.h
+        - path: 3_UserFocPort/foc_lib/inc/smo.h
+        - path: 3_UserFocPort/foc_lib/src/field_weakening.c
+        - path: 3_UserFocPort/foc_lib/src/foc.c
+        - path: 3_UserFocPort/foc_lib/src/foc_lks_hw.c
+        - path: 3_UserFocPort/foc_lib/src/foc_math.c
+        - path: 3_UserFocPort/foc_lib/src/hfi.c
+        - path: 3_UserFocPort/foc_lib/src/smo.c
+        - path: 3_UserFocPort/foc_lib/src/user_foc_hal.c
       folders: []
     - name: 4_MotorDriveLayer
       files:
@@ -96,8 +115,7 @@ miscInfo:
 targets:
   Linko_07x_Project:
     cppPreprocessAttrs:
-      defineList:
-        - LKS32MC071CBT8
+      defineList: []
       incList:
         - .
         - Include
@@ -109,12 +127,12 @@ targets:
         - 6_UserAppLayer/Header
         - RTT
         - 5_MotorAppLayer/usr/Header
-        - ../../../keil5/ARM/PACK/ARM/CMSIS/5.0.1/CMSIS/Include
+        - ../../../../keil5/ARM/PACK/ARM/CMSIS/5.0.1/CMSIS/Include
+        - .pack/Linko/LKS07x.1.2.0/Device/Include
+        - 3_UserFocPort/foc_lib/inc
+        - 3_UserFocPort/foc_lib/src
         - .cmsis/include
         - RTE/_Linko_07x_Project
-        - 7_UserFocPort/foc_lib/inc
-        - 7_UserFocPort/foc_lib/src
-        - .pack/Linko/LKS07x.1.2.0/Device/Include
       libList: []
     excludeList: []
     settings:
@@ -234,4 +252,14 @@ targets:
         otherCmds: ""
         proType: 1
         speed: 8000
-    uploader: JLink
+      STLink:
+        address: "0x0"
+        bin: ""
+        elFile: None
+        optionBytes: .eide/linko_07x_project.st.option.bytes.ini
+        otherCmds: ""
+        proType: SWD
+        resetMode: default
+        runAfterProgram: true
+        speed: 4000
+    uploader: STLink

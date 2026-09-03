@@ -14,7 +14,7 @@
 #include "hardware_config.h"
 #include "HALDrv.h"
 
-#define FOC_LKS_HW_MOTOR0        (1U)
+#define FOC_LKS_HW_MOTOR0        (0U)
 #define FOC_LKS_HW_ADC_MAX       (ADC_RESOLUTION - 1U)
 #define FOC_LKS_HW_ADC_MIDPOINT  (ADC_RESOLUTION / 2U)
 

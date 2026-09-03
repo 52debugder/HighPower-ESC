@@ -18,6 +18,7 @@
  *******************************************************************************/
 #include "project_mcu.h"
 #include "hardware_config.h"
+#include "foc.h"
 
 /*******************************************************************************/
 //外部函数引用区
@@ -27,6 +28,9 @@ extern void Task_Scheduler(void);
 extern void sys_init(void);
 extern bool ConfigData_check(void);
 extern void DebugPWM_OutputFunction(void);
+
+
+extern foc_handle_t FOC_Motor[MAX_MOTOR_NUM + 1];
 /*******************************************************************************/
 
 
@@ -50,6 +54,7 @@ int main(void)
 	}
 	__disable_irq();      /* 关闭中断 中断总开关 */
     Hardware_init();      /* 硬件初始化 */
+    Foc_Init(1, &foc_hal);
     sys_init();           /* 系统初始化 */
     __enable_irq();						/* 使能中断 */
 

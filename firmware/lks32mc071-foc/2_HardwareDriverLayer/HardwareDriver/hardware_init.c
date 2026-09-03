@@ -88,8 +88,8 @@ void Hardware_init(void)
 	FLASH_CFG |= 0x00080000;			/* enable prefetch */
     IWDG_DISABLE();						/* 关闭看门狗*/
 
-	DSP_Init();							/* DSP模块初始化*/
-	UART_init();						/* 串口初始化UART0*/
+	// DSP_Init();							/* DSP模块初始化*/
+	// UART_init();						/* 串口初始化UART0*/
 	ADC0_init();						/* ADC初始化 */
 	ADC1_init();						/* ADC初始化 */
 	GPIO_init();					  	/* GPIO初始化 */	
@@ -104,11 +104,11 @@ void Hardware_init(void)
 
 	UTimer_init();						/* 通用计数器初始化 */
 	
-	DAC_init();							/* DAC 初始化 */
-	PGA_init();							/* PGA 初始化 */
-	CMP_init();							/* 比较器初始化 */
-    HALL_init();						/* HALL模块初始化 */
-	TempSensor_Init();					/* 温度传感器初始化 */
+	// DAC_init();							/* DAC 初始化 */
+	// PGA_init();							/* PGA 初始化 */
+	// CMP_init();							/* 比较器初始化 */
+    // HALL_init();						/* HALL模块初始化 */
+	// TempSensor_Init();					/* 温度传感器初始化 */
     SoftDelay(100);						/* 等待硬件初始化完毕*/
 
 	//中断优先级设置

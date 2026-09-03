@@ -27,7 +27,7 @@
 #define MCU_MCLK_M0                       (MCU_MCLK_USED)       	/* PWM模块运行主频 */
 #define PWM_MCLK_M0                       ((u32)MCU_MCLK_M0)    /* PWM模块运行主频 */
 #define PWM_PRSC_M0                       (0)					/* PWM模块运行预分频器 */
-#define PWM_FREQ_M0                       ((u16)16000)			/* PWM斩波频率 */
+#define PWM_FREQ_M0                       ((u16)20000)			/* PWM斩波频率 */
 
 #define CURRENT_SAMPLE_TYPE_M0				(DRV0_CUR_SAMP_TYPE)/* 电流采样方式选择 */
 #define ROTOR_SENSOR_TYPE_M0				ROTOR_SENSORLESS	/* 电机位置传感器类型选择 */
@@ -37,8 +37,8 @@
 #define PWM_USED_ID_M0						(DRV0_PWM_ID)
 #define OPA_SELECT_M0						(0)						/*	运算放大倍数 选择 */
 
-#define CUR_LOOP_FREQUENCY_M0				((u16)16000)		/*单位: HZ,当前未用，预留*/
-#define OBSVR_LOOP_FREQUENCY_M0				((u16)16000)		/*单位: HZ,当前未用，预留*/
+#define CUR_LOOP_FREQUENCY_M0				((u16)20000)		/*单位: HZ,当前未用，预留*/
+#define OBSVR_LOOP_FREQUENCY_M0				((u16)20000)		/*单位: HZ,当前未用，预留*/
 #define SPD_LOOP_FREQUENCY_M0				((u16)1000)			/*单位: HZ*/
 
 #define OVER_MODU_FACTOR_M0					((s16)21845)		/*单位: Q15, 过调制系数*/
@@ -59,7 +59,7 @@
 #endif
 
 /*Motor0 Deadtime config*/
-#define DEADTIME_NS_M0                       ((u16)1200)                              /* 死区时间500--1000 */
+#define DEADTIME_NS_M0                       ((u16)200)                              /* 死区时间500--1000 */
 #define DEADTIME_M0                          (u16)(((unsigned long long)PWM_MCLK_M0 * (unsigned long long)DEADTIME_NS_M0)/1000uL)
 
 #define ADC_COV_TIME_M0						(200)   /* 预留的ADC转换时间，单位：500--200ns*/
