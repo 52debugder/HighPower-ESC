@@ -113,7 +113,25 @@
 #define ADC1_STATE_RESET()              {ADC1_CFG |= BIT11; }  
 
 #define ADC_SOFTWARE_TRIG_ONLY()       {ADC0_TRIG = 0;}      /* ADC设置为仅软件触发 */
+#define ADC_MCPWM0_T0_TRIG_ONLY()      {ADC0_TRIG = ADC_TRIG_MCPWM0_T0;}
+#define ADC_MCPWM0_T1_TRIG_ONLY()      {ADC0_TRIG = ADC_TRIG_MCPWM0_T1;}
 
+/* ------------------------------板级IO定义 -------------------------------- */
+#define DRV8353_EN_GPIO                GPIO1
+#define DRV8353_EN_PIN                 GPIO_Pin_10
+#define DRV8353_EN_PIN_SOURCE          GPIO_PinSource_10
+
+#define DRV8353_NFAULT_GPIO            GPIO2
+#define DRV8353_NFAULT_PIN             GPIO_Pin_3
+#define DRV8353_NFAULT_PIN_SOURCE      GPIO_PinSource_3
+
+#define DRV8353_NSCS_GPIO              GPIO2
+#define DRV8353_NSCS_PIN               GPIO_Pin_12
+#define DRV8353_NSCS_PIN_SOURCE        GPIO_PinSource_12
+
+#define BOARD_LED_GPIO                 GPIO3
+#define BOARD_LED_PIN                  GPIO_Pin_1
+#define BOARD_LED_PIN_SOURCE           GPIO_PinSource_1
 /* ------------------------------PGA操作相关定义 ------------------------------ */
 //#define PGA_GAIN_20                    0                   /* 反馈电阻200:10 */
 //#define PGA_GAIN_9P5                   1                   /* 反馈电阻190:20 */

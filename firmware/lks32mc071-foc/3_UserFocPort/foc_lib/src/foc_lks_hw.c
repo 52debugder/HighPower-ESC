@@ -1,11 +1,10 @@
 /**
- * ÎÄ¼þ£ºfoc_lks_hw.c
- * ËµÃ÷£ºÓÃ»§FOC HALµÄLKS32MC071µ×²ãÓ²¼þÊÊÅä¡£
+ * æ–‡ä»¶ï¼šfoc_lks_hw.c
+ * è¯´æ˜Žï¼šç”¨æˆ·FOC HALåˆ°LKS32MC071åº•å±‚ç¡¬ä»¶çš„é€‚é…ã€‚
  *
- * ±¾²ãÖ»¸ºÔð´¥ÅöMCPWM¡¢ADCºÍÏÖÓÐLKSÊä³öÃÅ¿Øº¯Êý¡£
- * Èí¼þ×´Ì¬ºÍ°²È«ÅÐ¶Ï·ÅÔÚuser_foc_hal.cÖÐ´¦Àí¡£
- * DRV8353SµÄENABLEºÍSPI¿ØÖÆÐèÒªÏÈÔÚÓ²¼þÉÏÈ·ÈÏÒý½ÅÓë¹ÊÕÏ¼«ÐÔ£¬
- * ÔÙ¼ÓÈëµ½ÕâÀï£¬±ÜÃâµ÷ÊÔÔçÆÚÎó¿ª¹¦ÂÊ¼¶¡£
+ * MCPWM0çš„CH0/CH1/CH2åˆ†åˆ«å¯¹åº”A/B/Cä¸‰ç›¸äº’è¡¥è¾“å‡ºã€‚
+ * DRV8353Sçš„ENABLEç”±P1.10æŽ§åˆ¶ï¼ŒnFAULTç”±P2.3è¯»å–ã€‚
+ * é»˜è®¤å…ˆå…³é—­åŠŸçŽ‡çº§ï¼Œå†å†™å…¥å®‰å…¨å ç©ºæ¯”ï¼Œé¿å…åˆå§‹åŒ–é˜¶æ®µè¯¯å¼€ç®¡ã€‚
  */
 
 #include "foc_lks_hw.h"
@@ -14,7 +13,9 @@
 #include "hardware_config.h"
 #include "HALDrv.h"
 
-#define FOC_LKS_HW_MOTOR0        (0U)
+extern void SoftDelay(u32 cnt);
+
+#define FOC_LKS_HW_MOTOR0        (1U)
 #define FOC_LKS_HW_ADC_MAX       (ADC_RESOLUTION - 1U)
 #define FOC_LKS_HW_ADC_MIDPOINT  (ADC_RESOLUTION / 2U)
 
@@ -28,6 +29,7 @@ static uint16_t foc_lks_hw_limit_duty(uint16_t duty)
     return (duty > PWM_ARR) ? PWM_ARR : duty;
 }
 
+#if (CURRENT_SAMPLE_TYPE_M0 == CURRENT_SAMPLE_2SHUNT)
 static uint16_t foc_lks_hw_limit_adc(int32_t adc)
 {
     if (adc < 0)
@@ -36,13 +38,17 @@ static uint16_t foc_lks_hw_limit_adc(int32_t adc)
         return (uint16_t)FOC_LKS_HW_ADC_MAX;
     return (uint16_t)adc;
 }
+#endif
 
 static void foc_lks_hw_write_pwm(uint16_t duty_u, uint16_t duty_v, uint16_t duty_w)
 {
+    duty_u = foc_lks_hw_limit_duty(duty_u);
+    duty_v = foc_lks_hw_limit_duty(duty_v);
+    duty_w = foc_lks_hw_limit_duty(duty_w);
+
     MCPWM0_PRT = 0x0000DEAD;
 
-    /* ÏÖÓÐLKS FOC´úÂëÖÐ£¬BÏà¶ÔÓ¦TH0£¬AÏà¶ÔÓ¦TH1£¬CÏà¶ÔÓ¦TH2¡£
-       ÓÃ»§FOC HALÊ¹ÓÃU/V/WÃüÃû£¬Òò´ËÕâÀïÓ³ÉäÎªU->A£¬V->B£¬W->C¡£ */
+    /* U/V/WæŒ‰ç‰©ç†ç›¸åºæ˜ å°„ï¼šU->Aç›¸CH0ï¼ŒV->Bç›¸CH1ï¼ŒW->Cç›¸CH2ã€‚ */
     MCPWM0_TH00 = (int16_t)(-duty_u);
     MCPWM0_TH01 = duty_u;
 
@@ -56,13 +62,20 @@ static void foc_lks_hw_write_pwm(uint16_t duty_u, uint16_t duty_v, uint16_t duty
     MCPWM0_PRT = 0x00000000;
 }
 
+static void foc_lks_hw_write_safe_pwm(void)
+{
+    foc_lks_hw_write_pwm(PWM_ARR / 2U, PWM_ARR / 2U, PWM_ARR / 2U);
+}
+
 void foc_lks_hw_init(uint8_t motor)
 {
     if (!foc_lks_hw_valid_motor(motor))
         return;
 
     EPWM0_OutPut(DISABLE);
-    foc_lks_hw_write_pwm(PWM_ARR / 2U, PWM_ARR / 2U, PWM_ARR / 2U);
+    GPIO_ResetBits(DRV8353_EN_GPIO, DRV8353_EN_PIN);
+    GPIO_SetBits(DRV8353_NSCS_GPIO, DRV8353_NSCS_PIN);
+    foc_lks_hw_write_safe_pwm();
 }
 
 void foc_lks_hw_pwm_start(uint8_t motor)
@@ -70,7 +83,7 @@ void foc_lks_hw_pwm_start(uint8_t motor)
     if (!foc_lks_hw_valid_motor(motor))
         return;
 
-    foc_lks_hw_write_pwm(PWM_ARR / 2U, PWM_ARR / 2U, PWM_ARR / 2U);
+    foc_lks_hw_write_safe_pwm();
 }
 
 void foc_lks_hw_pwm_disable(uint8_t motor)
@@ -79,7 +92,7 @@ void foc_lks_hw_pwm_disable(uint8_t motor)
         return;
 
     EPWM0_OutPut(DISABLE);
-    foc_lks_hw_write_pwm(PWM_ARR / 2U, PWM_ARR / 2U, PWM_ARR / 2U);
+    foc_lks_hw_write_safe_pwm();
 }
 
 void foc_lks_hw_pwm_set(uint8_t motor, uint16_t duty_u, uint16_t duty_v, uint16_t duty_w)
@@ -95,8 +108,9 @@ void foc_lks_hw_drv_enable(uint8_t motor)
     if (!foc_lks_hw_valid_motor(motor))
         return;
 
-    /* ÕâÀïÖ»Í¨¹ýÏÖÓÐLKSÇý¶¯²ã´ò¿ªMCPWMÊä³öÃÅ¿Ø¡£
-       ÔÚÈ·ÈÏDRV8353S ENABLEÒý½ÅGPIOÂ·¾¶Ö®Ç°£¬²»Ö±½Ó²Ù×÷Çý¶¯Ð¾Æ¬Ê¹ÄÜ½Å¡£ */
+    foc_lks_hw_write_safe_pwm();
+    GPIO_SetBits(DRV8353_EN_GPIO, DRV8353_EN_PIN);
+    SoftDelay(1000U);
     EPWM0_OutPut(ENABLE);
 }
 
@@ -106,6 +120,8 @@ void foc_lks_hw_drv_disable(uint8_t motor)
         return;
 
     EPWM0_OutPut(DISABLE);
+    foc_lks_hw_write_safe_pwm();
+    GPIO_ResetBits(DRV8353_EN_GPIO, DRV8353_EN_PIN);
 }
 
 void foc_lks_hw_adc_get(uint8_t motor, uint16_t *adc_u, uint16_t *adc_v, uint16_t *adc_w)
@@ -144,6 +160,9 @@ uint8_t foc_lks_hw_fault_active(uint8_t motor)
         return 1U;
 
 #if (EPWM0_USED == FUNCTION_ON)
+    if (GPIO_ReadInputDataBit(DRV8353_NFAULT_GPIO, DRV8353_NFAULT_PIN) == 0U)
+        return 1U;
+
     return ((MCPWM0_EIF & BIT5) != 0U) ? 1U : 0U;
 #else
     return 1U;

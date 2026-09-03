@@ -25,7 +25,7 @@ extern "C" {
 #define PWM_VBUS                12.0f           // VBUS母线电压
 #define ADC_RESOLUTION          4096        // 12位ADC分辨率
 // #define TS                      0.0001176f     // 采样时间间隔
-#define TS                      0.00005f        // 采样时间间隔 (16kHz ISR)
+#define TS                      0.00005f        // 采样时间间隔 (20kHz ISR)
 
 #define FOC_CURRENT_BASE_A      CURRENT_LIMIT       // 电流基值
 #define FOC_VOLTAGE_BASE_V      CURRENT_PI_LIMIT    // 电压基值

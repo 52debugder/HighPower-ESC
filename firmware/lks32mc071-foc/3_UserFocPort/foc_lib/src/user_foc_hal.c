@@ -1,203 +1,56 @@
 /**
- * ÎÄ¼þ£ºuser_foc_hal.c
- * ËµÃ÷£ºÓÃ»§FOC HAL½Ó¿ÚµÄLKS32MC07xÊÊÅä²ã¡£
+ * æ–‡ä»¶ï¼šuser_foc_hal.c
+ * è¯´æ˜Žï¼šFOCåº“åˆ°LKS32MC071å¹³å°çš„é€‚é…å±‚ã€‚
  *
- * ±¾ÎÄ¼þÖÐµÄÓ°×Ó×´Ì¬ÓÃÓÚ¼ÇÂ¼FOCËã·¨²ãÇëÇóµÄPWMºÍÇý¶¯×´Ì¬¡£
- * Ö»ÓÐÍ¨¹ý»ù´¡×´Ì¬¼ì²éºó£¬²Å»á°ÑÕæÊµÓ²¼þÐ´ÈëÎ¯ÍÐ¸øfoc_lks_hw.c¡£
- * ÕâÑùµ÷ÊÔÔçÆÚ¿ÉÒÔ°ÑPWMÊä³öºÍÇý¶¯Ê¹ÄÜ¼¯ÖÐÔÚÒ»¸ö½ÏÕ­µÄ°²È«ÃÅ¿ØÀï¡£
+ * è¿™ä¸€å±‚åªåšå‡½æ•°è¡¨è½¬æŽ¥ï¼Œä¸å†ä¾èµ–STM32 HALã€‚
+ * å…·ä½“çš„PWMã€ADCã€é©±åŠ¨ä½¿èƒ½å’Œæ•…éšœå¤„ç†éƒ½ç”± foc_lks_hw.c å®Œæˆã€‚
  */
 
 #include "foc_hal.h"
-#include "foc_config.h"
 #include "foc_lks_hw.h"
-
-#define FOC_ADC_TRIGGER_DELAY_TICKS 288U
-#define FOC_ADC_FILTER_WINDOW 3U
-
-extern TIM_HandleTypeDef htim1;
-
-typedef struct
-{
-    uint16_t u[FOC_ADC_FILTER_WINDOW];
-    uint16_t w[FOC_ADC_FILTER_WINDOW];
-    uint8_t index;
-    uint8_t count;
-} foc_adc_filter_t;
-
-static foc_adc_filter_t adc_filter[3];
-
-static uint16_t foc_hal_median3_u16(uint16_t a, uint16_t b, uint16_t c)
-{
-    uint16_t temp;
-
-    if (a > b)
-    {
-        temp = a;
-        a = b;
-        b = temp;
-    }
-    if (b > c)
-    {
-        temp = b;
-        b = c;
-        c = temp;
-    }
-    if (a > b)
-    {
-        temp = a;
-        a = b;
-        b = temp;
-    }
-
-    return b;
-}
-
-static void foc_hal_adc_filter_sample(uint8_t num, uint16_t raw_u, uint16_t raw_w, uint16_t *adc_u, uint16_t *adc_w)
-{
-    foc_adc_filter_t *filter = &adc_filter[num];
-    uint8_t index = filter->index;
-
-    filter->u[index] = raw_u;
-    filter->w[index] = raw_w;
-    if (filter->count < FOC_ADC_FILTER_WINDOW)
-        filter->count++;
-
-    index++;
-    if (index >= FOC_ADC_FILTER_WINDOW)
-        index = 0U;
-    filter->index = index;
-
-    if (filter->count < FOC_ADC_FILTER_WINDOW)
-    {
-        *adc_u = raw_u;
-        *adc_w = raw_w;
-        return;
-    }
-
-    *adc_u = foc_hal_median3_u16(filter->u[0], filter->u[1], filter->u[2]);
-    *adc_w = foc_hal_median3_u16(filter->w[0], filter->w[1], filter->w[2]);
-}
 
 static void foc_hal_init(uint8_t num)
 {
-    switch(num)
-    {
-        case 1:
-            adc_filter[1] = (foc_adc_filter_t){0};
-            HAL_ADCEx_Calibration_Start(&hadc1);
-            if(HAL_ADCEx_InjectedStart_IT(&hadc1) != HAL_OK) // Æô¶¯adc×¢Èë×é²ÉÑù
-                Error_Handler(); 
-            if(HAL_TIM_Base_Start(&htim2) != HAL_OK) // Æô¶¯tim¶¨Ê±Æ÷£¨focµÄpwmÉú³É£©
-                Error_Handler();
-            break;
-        case 2:
-            // adc_filter[2] = (foc_adc_filter_t){0};
-            // HAL_ADCEx_Calibration_Start(&hadc2, ADC_CALIB_OFFSET, ADC_SINGLE_ENDED);
-            // HAL_ADC_Start_DMA(&hadc2, (uint32_t *)adc2_buf, sizeof(adc2_buf) / sizeof(adc2_buf[0])); // Æô¶¯ADC DMA²ÉÑù
-            // HAL_TIM_Base_Start_IT(&htim1);// Æô¶¯¶¨Ê±Æ÷£¨FOC¼ÆËã£©
-            break;
-    }
+    foc_lks_hw_init(num);
 }
 
-static void foc_hal_set_duty(uint8_t num, uint16_t du, uint16_t dv, uint16_t dw)
+static void foc_hal_pwm_start(uint8_t num)
 {
-    switch(num)
-    {
-        case 1:
-            __HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_1, du);
-            __HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_2, dv);
-            __HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_3, dw);
-            break;
-        case 2:
-            // __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_1, du);
-            // __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_2, dv);
-            // __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_3, dw);
-            break;
-    }
-}
-
-static void foc_hal_tim_start(uint8_t num)
-{
-    switch(num)
-    {
-        case 1:
-            HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_1);
-            HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_2);
-            HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_3);
-            HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_4);
-            __HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_4, __HAL_TIM_GET_AUTORELOAD(&htim2) - FOC_ADC_TRIGGER_DELAY_TICKS);
-            break;
-        case 2:
-            // HAL_TIM_Base_MspInit(&htim1);
-            // HAL_TIM_MspPostInit(&htim1);
-
-            // HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_1);
-            // HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_2);
-            // HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_3);
-            // HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_4);
-            // __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_4, __HAL_TIM_GET_AUTORELOAD(&htim1) - FOC_ADC_TRIGGER_DELAY_TICKS);
-            break;
-    }
+    foc_lks_hw_pwm_start(num);
 }
 
 static void foc_hal_pwm_disable(uint8_t num)
 {
-    switch(num)
-    {
-        case 1: HAL_TIM_PWM_Stop(&htim2, TIM_CHANNEL_1); 
-                HAL_TIM_PWM_Stop(&htim2, TIM_CHANNEL_2); 
-                HAL_TIM_PWM_Stop(&htim2, TIM_CHANNEL_3); 
-                break; // Æô¶¯PWMÊä³ö
-        // case 2: __HAL_TIM_MOE_ENABLE(&htim1); break; // Æô¶¯PWMÊä³ö
-    }
+    foc_lks_hw_pwm_disable(num);
 }
 
-static void foc_hal_drive_init(uint8_t num)
+static void foc_hal_pwm_set_duty(uint8_t num, uint16_t du, uint16_t dv, uint16_t dw)
 {
-    switch(num)
-    {
-        case 1: HAL_GPIO_WritePin(GPIOA, GPIO_PIN_3, GPIO_PIN_SET); break; // Æô¶¯M1×óµç»ú
-        // case 2: HAL_GPIO_WritePin(BM_ENB_GPIO_Port, BM_ENB_Pin, GPIO_PIN_SET); break; // Æô¶¯M2ÓÒµç»ú
-    }
+    foc_lks_hw_pwm_set(num, du, dv, dw);
 }
 
-static void foc_hal_drive_deinit(uint8_t num)
+static void foc_hal_drv_enable(uint8_t num)
 {
-    switch(num)
-    {
-        case 1: HAL_GPIO_WritePin(GPIOA, GPIO_PIN_3, GPIO_PIN_RESET); break; // Æô¶¯M1×óµç»ú
-        // case 2: HAL_GPIO_WritePin(BM_ENB_GPIO_Port, BM_ENB_Pin, GPIO_PIN_RESET); break; // Æô¶¯M2ÓÒµç»ú
-    }
+    foc_lks_hw_drv_enable(num);
+}
+
+static void foc_hal_drv_disable(uint8_t num)
+{
+    foc_lks_hw_drv_disable(num);
 }
 
 static void foc_hal_adc_get_value(uint8_t num, uint16_t *adc_u, uint16_t *adc_v, uint16_t *adc_w)
 {
-    switch(num)
-    {
-        case 1:
-        {
-            // SCB_InvalidateDCache_by_Addr((uint32_t*)adc1_buf, sizeof(adc1_buf));
-            uint16_t raw_ch4 = hadc1.Instance->JDR1;
-            uint16_t raw_ch5 = hadc1.Instance->JDR2;
-            foc_hal_adc_filter_sample(num, raw_ch5, raw_ch4, adc_u, adc_w);
-            *adc_v = 0;
-            break;
-        }
-        // case 2:
-        //     SCB_InvalidateDCache_by_Addr((uint32_t*)adc2_buf, sizeof(adc2_buf));
-        //     foc_hal_adc_filter_sample(num, adc2_buf[1], adc2_buf[0], adc_u, adc_w);
-        //     *adc_v = 0;
-        //     break;
-    }
+    foc_lks_hw_adc_get(num, adc_u, adc_v, adc_w);
 }
 
 const foc_hal_t foc_hal =
 {
-    .pwm_start = foc_hal_tim_start,
-    .pwm_set_duty = foc_hal_set_duty,
-    .drv_enable = foc_hal_drive_init,
-    .drv_disable = foc_hal_drive_deinit,
+    .pwm_start = foc_hal_pwm_start,
+    .pwm_disable = foc_hal_pwm_disable,
+    .pwm_set_duty = foc_hal_pwm_set_duty,
+    .drv_enable = foc_hal_drv_enable,
+    .drv_disable = foc_hal_drv_disable,
     .adc_get_value = foc_hal_adc_get_value,
     .init = foc_hal_init,
-    .pwm_disable = foc_hal_pwm_disable,
 };
