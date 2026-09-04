@@ -38,7 +38,7 @@ void DebugPWM_OutputFunction(void); /* 调试的时候输出50%的PWM波形 */
 extern PSTR_ControlObject getCtrlObjectPtr(u8 objID);
 extern void ADC0_init(void);
 extern void ADC1_init(void);
-extern u8 getLibMaxObjNumber(void);
+// extern u8 getLibMaxObjNumber(void);
 extern void DebugPWM_OutputFunction(void);
 
 /*******************************************************************************
@@ -64,10 +64,10 @@ bool ConfigData_check(void)
 	}
 
 	//	校验库是否匹配?
-	if(getLibMaxObjNumber() < PLANTFORM_DRV_MODULE_NUM)
-	{
-		return FALSE;					//	库对象数小于当前代码的对象个数，库不支持
-	}	
+	// if(getLibMaxObjNumber() < PLANTFORM_DRV_MODULE_NUM)
+	// {
+	// 	return FALSE;					//	库对象数小于当前代码的对象个数，库不支持
+	// }	
 	return TRUE;
 }
 
@@ -85,11 +85,8 @@ bool ConfigData_check(void)
  *******************************************************************************/
 void sys_init(void)
 {
-	InitMotorDriveLayer();
-	InitMotorAppLayer();
-	InitUsrAppLayer();
 
-	CurrentOffsetCalibration();                 /* 读取电流采样通道偏置 */
+	// CurrentOffsetCalibration();                 /* 读取电流采样通道偏置 */
 	
 	//gS_TaskScheduler.sVersion = &sVersion[0];/* 初始化版本号 */
     

@@ -68,30 +68,8 @@ virtualFolder:
         - path: 3_UserFocPort/foc_lib/src/hfi.c
         - path: 3_UserFocPort/foc_lib/src/smo.c
         - path: 3_UserFocPort/foc_lib/src/user_foc_hal.c
-      folders: []
-    - name: 4_MotorDriveLayer
-      files:
-        - path: 4_MotorDriveLayer/FOC_Drive.c
-        - path: 4_MotorDriveLayer/FocDef.c
-        - path: 4_MotorDriveLayer/PID_regulators.c
-        - path: 4_MotorDriveLayer/Lib/lks07x_Lib_R_V02_0_9aOpt_AC5.lib
-      folders: []
-    - name: 5_MotorAppLayer
-      files:
-        - path: 5_MotorAppLayer/Main_Drive.c
-        - path: 5_MotorAppLayer/PowerCalculation.c
-        - path: 5_MotorAppLayer/Process_Control.c
-        - path: 5_MotorAppLayer/state_machine.c
-        - path: 5_MotorAppLayer/MA_Static_Variable.c
-        - path: 5_MotorAppLayer/MA_interface.c
-        - path: 5_MotorAppLayer/usr/fault_detection.c
-        - path: 5_MotorAppLayer/usr/Task_Scheduler.c
-      folders: []
-    - name: 6_UserAppLayer
-      files:
-        - path: 6_UserAppLayer/UA_interface.c
-        - path: 6_UserAppLayer/UA_stateMachine.c
-        - path: 6_UserAppLayer/UA_usrApp.c
+        - path: 3_UserFocPort/foc_lib/src/drv8353.c
+        - path: 3_UserFocPort/foc_lib/inc/drv8353.h
       folders: []
     - name: Include
       files:

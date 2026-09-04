@@ -792,6 +792,11 @@
               <FilePath>.\3_UserFocPort\foc_lib\inc\foc_lks_hw.h</FilePath>
             </File>
             <File>
+              <FileName>drv8353.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\3_UserFocPort\foc_lib\inc\drv8353.h</FilePath>
+            </File>
+            <File>
               <FileName>foc_math.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\3_UserFocPort\foc_lib\inc\foc_math.h</FilePath>
@@ -820,6 +825,11 @@
               <FileName>field_weakening.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\3_UserFocPort\foc_lib\src\field_weakening.c</FilePath>
+            </File>
+            <File>
+              <FileName>drv8353.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\3_UserFocPort\foc_lib\src\drv8353.c</FilePath>
             </File>
             <File>
               <FileName>foc.c</FileName>

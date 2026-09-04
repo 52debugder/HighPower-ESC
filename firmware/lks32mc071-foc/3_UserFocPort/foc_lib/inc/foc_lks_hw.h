@@ -15,6 +15,7 @@ void foc_lks_hw_drv_enable(uint8_t motor);
 void foc_lks_hw_drv_disable(uint8_t motor);
 void foc_lks_hw_adc_get(uint8_t motor, uint16_t *adc_u, uint16_t *adc_v, uint16_t *adc_w);
 uint8_t foc_lks_hw_fault_active(uint8_t motor);
+void foc_lks_hw_fault_reset(uint8_t motor);
 
 #ifdef __cplusplus
 }

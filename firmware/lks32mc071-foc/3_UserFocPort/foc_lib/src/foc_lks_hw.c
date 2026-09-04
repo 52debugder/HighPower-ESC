@@ -9,6 +9,7 @@
 
 #include "foc_lks_hw.h"
 
+#include "drv8353.h"
 #include "foc_config.h"
 #include "hardware_config.h"
 #include "HALDrv.h"
@@ -73,8 +74,8 @@ void foc_lks_hw_init(uint8_t motor)
         return;
 
     EPWM0_OutPut(DISABLE);
-    GPIO_ResetBits(DRV8353_EN_GPIO, DRV8353_EN_PIN);
-    GPIO_SetBits(DRV8353_NSCS_GPIO, DRV8353_NSCS_PIN);
+    DRV8353_Init();
+    DRV8353_Disable();
     foc_lks_hw_write_safe_pwm();
 }
 
@@ -109,8 +110,7 @@ void foc_lks_hw_drv_enable(uint8_t motor)
         return;
 
     foc_lks_hw_write_safe_pwm();
-    GPIO_SetBits(DRV8353_EN_GPIO, DRV8353_EN_PIN);
-    SoftDelay(1000U);
+    DRV8353_Enable();
     EPWM0_OutPut(ENABLE);
 }
 
@@ -121,7 +121,7 @@ void foc_lks_hw_drv_disable(uint8_t motor)
 
     EPWM0_OutPut(DISABLE);
     foc_lks_hw_write_safe_pwm();
-    GPIO_ResetBits(DRV8353_EN_GPIO, DRV8353_EN_PIN);
+    DRV8353_Disable();
 }
 
 void foc_lks_hw_adc_get(uint8_t motor, uint16_t *adc_u, uint16_t *adc_v, uint16_t *adc_w)
@@ -160,11 +160,21 @@ uint8_t foc_lks_hw_fault_active(uint8_t motor)
         return 1U;
 
 #if (EPWM0_USED == FUNCTION_ON)
-    if (GPIO_ReadInputDataBit(DRV8353_NFAULT_GPIO, DRV8353_NFAULT_PIN) == 0U)
+    if (DRV8353_FaultActive() != 0U)
         return 1U;
 
     return ((MCPWM0_EIF & BIT5) != 0U) ? 1U : 0U;
 #else
     return 1U;
 #endif
+}
+
+void foc_lks_hw_fault_reset(uint8_t motor)
+{
+    if (!foc_lks_hw_valid_motor(motor))
+        return;
+
+    EPWM0_OutPut(DISABLE);
+    foc_lks_hw_write_safe_pwm();
+    DRV8353_ClearFault();
 }

@@ -13,6 +13,7 @@
 #include "basic.h"
 #include "hardware_config.h"
 #include "MC_Parameter_M0.h"
+#include "drv8353.h"
 
 
 void UART_init(void);
@@ -129,6 +130,8 @@ void Hardware_init(void)
 	NVIC_EnableIRQ (TIMER0_IRQn);
 	
     SYS_WR_PROTECT = 0;               /* �ر�ϵͳ�Ĵ���д����*/
+    DRV8353_Init();
+    DRV8353_Enable();
 
     //__enable_irq();                   /* �������ж� */
 }

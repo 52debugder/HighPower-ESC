@@ -60,7 +60,7 @@ int main(void)
 
     for(;;)
     {
-        Task_Scheduler(); /* 任务调度函数，根据时间分片处理 */
+        // Task_Scheduler(); /* 任务调度函数，根据时间分片处理 */
     }
 }
 

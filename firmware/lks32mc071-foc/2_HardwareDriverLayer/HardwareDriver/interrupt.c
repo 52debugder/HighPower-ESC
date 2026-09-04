@@ -20,10 +20,11 @@
 #include "project_mcu.h"
 #include "hardware_config.h"
 #include "hardware_init.h"
-#include "MC_Parameter_M0.h"
+// #include "MC_Parameter_M0.h"
 #include "PubData_DriverInstance.h"
-#include "mc_declaration.h"
-#include "MA_Static_Variable.h"
+// #include "mc_declaration.h"
+// #include "MA_Static_Variable.h"
+#include "foc.h"
 
 
 #include "segger_rtt.h"
@@ -78,7 +79,8 @@ void ADC0_IRQHandler(void)
 	HALL0_CNT = 0;
 	#endif
 	
-    AdcEocIsrDRV0();
+    // AdcEocIsrDRV0();
+	Foc_Loop(1);
 
 	#ifdef _TIME_TEST_DEFINED
 	DebugT1		= HALL0_CNT;
@@ -89,10 +91,10 @@ void ADC0_IRQHandler(void)
 
 	
 	#if(RTT_FUNCTION == FUNCTION_ON)
-	Rttstru.data0 = getElectSpdEst(0);
-	Rttstru.data1 = getElectAngleEst(0);
-	Rttstru.data2 = getPhaseCur_U(0);
-	Rttstru.data3 = getPhaseCur_V(0);	
+	// Rttstru.data0 = getElectSpdEst(0);
+	// Rttstru.data1 = getElectAngleEst(0);
+	// Rttstru.data2 = getPhaseCur_U(0);
+	// Rttstru.data3 = getPhaseCur_V(0);	
 	SEGGER_RTT_Write(1, &Rttstru, 8);
 	#endif
 
@@ -190,9 +192,9 @@ void TIMER0_IRQHandler(void)
     /* ???500us */
     UTIMER0_IF |= TIMER_IF_ZERO;
 
-	gS_TaskScheduler.bTimeCnt1ms++;
-    gS_TaskScheduler.nTimeCnt10ms ++;
-    gS_TaskScheduler.nTimeCnt500ms++;
+	// gS_TaskScheduler.bTimeCnt1ms++;
+    // gS_TaskScheduler.nTimeCnt10ms ++;
+    // gS_TaskScheduler.nTimeCnt500ms++;
 }
 
 /*******************************************************************************

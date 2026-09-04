@@ -165,10 +165,7 @@ typedef struct
     const char* sVersion;    /* ³ÌÐò°æ±¾ºÅ */
 } STR_TaskScheduler;
 
-extern void InitMotorDriveLayer(void);
 extern void BondingMotorDrvObject(void);
-extern void InitMotorAppLayer(void);
-extern void InitUsrAppLayer(void);
 extern bool checkParaCfgValid(void);
 
 #endif // _PubData_DriverInstance_H_
