@@ -237,7 +237,7 @@ targets:
         optionBytes: .eide/linko_07x_project.st.option.bytes.ini
         otherCmds: ""
         proType: SWD
-        resetMode: default
+        resetMode: HWrst
         runAfterProgram: true
         speed: 4000
     uploader: STLink

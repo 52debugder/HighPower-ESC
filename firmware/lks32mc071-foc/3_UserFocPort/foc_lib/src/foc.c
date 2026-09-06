@@ -208,7 +208,7 @@ static uint8_t Foc_LoadClosedLoopSensorAngle(foc_handle_t *motor, float dt)
  * @return foc_state_t 
  */
 foc_state_t Foc_Init(uint8_t motor_num, const foc_hal_t *hal_interface)
-{
+  {
     foc_handle_t *motor = &FOC_Motor[motor_num];
     motor->num = motor_num;
     Foc_ParamInit(motor, hal_interface); // FOC初始化

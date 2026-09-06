@@ -48,11 +48,12 @@ extern foc_handle_t FOC_Motor[MAX_MOTOR_NUM + 1];
  *******************************************************************************/
 int main(void)
 {
-	if(!ConfigData_check())				/*	检查配置参数						*/
-	{
-		while(1);						/*	配置参数或库不支持，进入死循环状态	*/
-	}
+//	 if(!ConfigData_check())				/*	检查配置参数						*/
+//	 {
+//	 	while(1);						/*	配置参数或库不支持，进入死循环状态	*/
+//	 }
 	__disable_irq();      /* 关闭中断 中断总开关 */
+  BondingMotorDrvObject();
     Hardware_init();      /* 硬件初始化 */
     Foc_Init(1, &foc_hal);
     sys_init();           /* 系统初始化 */
