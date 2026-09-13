@@ -1,0 +1,95 @@
+ (tag: v3.15) 标准库：修复MCPWM AUEN宏和初始化、OPA输出寄存器操作、SPI片选判断；HAL库：新增CAN驱动，增强ADC多触发源、MCPWM双时基及通道配置、DAC量程设置、I2C/SPI/UART/Hall时钟与配置接口，重构GPIO模式和中断管理，修复DMA分段搬运；用户手册：版本同步，新增用户手册知识库。 
+ (tag: v3.14) 一、核心改动概述
+1. 芯片适配与文件重构
+文件更名与替换：
+hal_lks32mc05x.c/h 更正为 hal_lks32mc07x.c/h（主文件入口）。
+新增 hal_lks32mc07x_reg.h：重新定义 LKS32MC07x 的寄存器结构体（SYS、FLASH、ADC 等），适配新芯片的寄存器地址和位定义。
+源文件目录 source/ 新增 LKS32MC07x 专属驱动（如 hal_lks32mc07x_adc.c、hal_lks32mc07x_qep.c 等），覆盖所有外设。
+库文件更新：
+hal_lksmcu_lib.lib（Keil）和 libhal_lksmcu_lib.a（GCC）替换为适配 07x 芯片的静态库，包含校准参数读取等底层功能。
+2. 功能扩展与接口优化
+（1）统一中断接口
+新增中断函数别名定义（如 HAL_TIMER_IRQHandler_00 = TIMER0_IRQHandler），支持多模块 / 多通道中断，且简化写法（如 HAL_TIMER_IRQHandler 默认指向通道 0）。
+明确不支持的中断函数（如 HAL_UART_IRQHandler_20），避免编译错误。
+（2）外设功能增强
+ADC 新增 GPIO 输入配置（HAL_ADC_SetGpioIn）、触发输出配置；支持温度传感器 / DAC 输入通道细分。
+GPIO 新增功能复用枚举（HAL_GPIO_AFx），支持 ADC、QEP、CAN 等外设的 GPIO 映射；优化模式配置逻辑。
+MCPWM 扩展输出端口到 6 通道（HAL_MCPWM_PORT_0~5）；新增故障信号配置（HAL_MCPWM_FAIL_x）。
+SPI 支持主从模式、CPOL/CPHA 配置、16 位数据宽度；新增 GPIO 引脚指定（CS/MOSI/MISO/CLK）。
+UART 支持 3 个 UART 模块；新增校验错误、停止位错误中断；明确 GPIO_TX/RX 配置接口。
+QEP 支持正交编码 / 符号脉冲 / 双脉冲模式；新增 GPIO 引脚配置。
+FLASH 新增安全参数存储（HAL_FLASH_SecurityParameterSave）、多字节读取（ReadUint8/16/32）。
+TRIM 新增芯片 ID 读取（HAL_TRIM_ReadId）和 CRC 校验（HAL_TRIM_ReadIdCrc32）。
+（3）修复 bug
+修正 HAL_ADC_IrqSamp2Enable 等中断函数的位操作错误。
+修复 HAL_DMA_SpiRxTx 接口参数错误（新增接收缓冲区指针，支持全双工通信）。
+修正 HAL_WAKE 模块函数名拼写错误（DeepSleepIoWeak → DeepSleepIoWake）。
+（4）新增基础功能
+芯片默认时钟定义（HAL_INIT_DEFAULE_MCLK = 96MHz），简化时钟配置。
+电源初始化接口（HAL_INIT_PowerReady），支持 3.3V/5V 供电配置。
+寄存器操作宏扩展（HAL_REG_WRITE_BIT_MASK_POS），简化位域操作。
+二、关键文件说明
+1. 主文件入口
+hal_lks32mc07x.h：
+包含所有外设头文件（hal_lksmcu_adc.h、hal_lksmcu_mcpwm.h 等）。
+统一中断接口定义、芯片默认参数（时钟、电源）。
+必须在用户代码中包含（#include "hal_lks32mc07x.h"）。
+hal_lks32mc07x.c：
+包含所有外设驱动的入口，通过 #include 引入 source/ 下的具体实现文件。
+无需修改，直接添加到工程即可。
+2. 寄存器定义文件
+hal_lks32mc07x_reg.h：
+重新定义了所有外设的寄存器结构体（如 HAL_SYS_TypeDef、HAL_ADC_TypeDef），适配 LKS32MC07x 的寄存器地址和位域。
+例：HAL_SYS_TypeDef 新增 DAC_CTRL、CLK_DIV1 等寄存器，对应 07x 芯片的新增功能。
+3. 静态库文件
+hal_lksmcu_lib.lib（Keil）/ libhal_lksmcu_lib.a（GCC）：
+包含校准参数读取（HAL_TRIM_Read）、芯片 ID 校验等底层功能，不可修改。
+工程中必须链接该库，否则会导致部分功能（如 ADC 校准、温度传感器读取）异常。
+三、文档与反馈
+新增 lks32mc07x_hal.pdf：HAL 库详细使用手册（含 API 说明、示例代码）。
+ (tag: v3.13, origin/main, origin/HEAD) lks32mc07x_user_manual里，对所有的_MASK项，增加(uint32_t)强制转换，以避免编译器警告。
+ (tag: v3.12) 修正了`REG_WRITE_BIT_POS_MASK`宏中的错误，将`name##(val)`更正为`name(val)`以正确写入寄存器中指定掩码位的值。
+ (tag: v3.11) 更新DMA请求位定义，调整TIM初始化顺序，启用定时器在配置后。
+ (tag: v3.10) 提交优化了lks32mc07x芯片的CLU模块代码，通过新增寄存器操作宏简化了寄存器读写和位操作逻辑，提高了代码可读性和维护性，并包含了用户手册头文件以支持寄存器定义。
+ (tag: v3.09) 添加BSD 3-Clause许可证文件和SLA_2025文档，修正拼写错误，更新用户手册版本至1.42，修正头文件保护宏，将头文件和源文件中的"FERQ"统一改为"FREQ"，修正HAL_MCPWM_OUTPUT_STATE_x和HAL_MCPWM_DEFAULT_OUTPUT_STATE_x枚举值拼写错误，将hal_lks32mc07x.h中包含的"hal_lksmcu_weak.h"改为"hal_lksmcu_wake.h"，并更新相关源文件的包含项，移除SYS_TypeDef结构体中的TEST寄存器定义。
+ (tag: v3.08) 代码格式化命令修改：从BreakBeforeBraces: Linux改为BreakBeforeBraces: Allman。
+ (tag: v3.07) 重构LKS32MC07x CAN驱动，新增寄存器映射结构体CAN_TypeDef和多种枚举类型，实现模块化配置接口，支持波特率自动计算、STB/PTB双缓冲区模式、错误状态监控及回环测试功能，优化滤波器配置为统一接口，提升代码可维护性和功能扩展性。
+ (tag: v3.06) 增加hal库 时钟初始化函数SYS_MclkChoice增加延时。
+ (tag: v3.05) 移除Switch2HRC函数中未使用的局部变量cnt。
+ (tag: v3.04) 解决深度休眠唤醒过程中，程序进入hardfault的问题； 统一代码格式，参考： "clang-format -style={BasedOnStyle: Microsoft, Language: Cpp, UseTab: Never, IndentWidth: 4, TabWidth: 4, ColumnLimit: 0, AccessModifierOffset: -4, NamespaceIndentation: All, FixNamespaceComments: false, BreakBeforeBraces: Linux, AllowShortIfStatementsOnASingleLine: true, AllowShortLoopsOnASingleLine: true, AllowShortBlocksOnASingleLine: true, IndentCaseLabels: true, SortIncludes: false, AlignConsecutiveMacros: AcrossEmptyLines, AlignConsecutiveAssignments: Consecutive}"
+ (tag: v3.03) 添加从用户手册生成的头文件，包含所有模块的寄存器定义和位掩码配置。
+ (tag: v3.02) 添加DSP_SinCosMode和DSP_ArctanMode函数，用于设置DSP的正弦余弦模式和反正切模式，并更新了相关宏和函数调用以使用这些新模式设置函数，简化了模式设置过程并提高了代码可读性。
+ (tag: v3.01) 调整CRC初始化，解决16位宽度下，结果异或位0xffff时计算错误的问题，空格对齐。
+ (tag: v3.00) 更改`DSP_mod`函数返回类型为`u16`以匹配其计算非负模的特性，并更新头文件和源文件中的声明。
+ (tag: v2.99) 更新DSP函数参数类型以匹配其实现：`DSP_sin`和`DSP_cos`参数由`u16`改为`s16`；`DSP_rms`参数和返回类型由`s16, s16`和`u16`改为`s32, s32`和`s32`；`DSP_mod`参数由`s32, s16`改为`s16, s16`。
+ (tag: v2.98) 修改了lks32mc07x_opa.h中的PGA_IT定义，增加了PGA_IT_2并更改PGA_IT_DISABLE为PGA_IT_1默认值；在lks32mc07x_wake.c的SYS_FallSleep函数中增加了关闭SysTick中断的操作。
+ (tag: v2.97) 更新了liblks32mc07x_nvr.a和lks32mc07x_nvr.lib二进制文件，修改了lks32mc07x_sif.c，添加了#include "string.h"。
+ (tag: v2.96) 删除lks32mc07x_nvr.lib文件，移动头文件和源文件到小写目录，更新部分文件包含路径和宏定义，修复DMA和EXTI中的极端情况处理，增加部分函数的实现，调整部分函数命名和代码风格。
+ (tag: v2.95) 提交调整了`lks32mc07x_mcpwm.h`文件中的宏定义格式，对齐并增加了注释字段的间距，未修改任何宏定义的实际内容或功能。
+ (tag: v2.94) 添加了MCPWM中断标志位和错误中断源事件定义到`lks32mc07x_mcpwm.h`，包括MCPWM_IF0/1的各类定时器中断和MCPWM_EIF的错误中断源。
+ (tag: v2.93) 调整`lks32mc07x_sys.h`中`SYS_TypeDef`结构体的注释，更新CLK_DIV0和CLK_DIV1的描述，CLK_DIV0改为I2C时钟分频，CLK_DIV1标注为保留，其他注释格式化调整。
+ (tag: v2.92) 更改`lks32mc07x_uart.h`：将`IRQEna`从`uint8_t`修改为`uint16_t`以调整中断使能寄存器类型。
+ (tag: v2.91) fix(MCPWM):修复获取MCPWM中断标志函数
+ (tag: v2.90) 本次提交主要更新了系统时钟和电源管理相关代码，包括系统时钟初始化、模块时钟控制、串口/I2C/SPI分频设置、看门狗配置以及电源选择和掉电检测中断处理等功能。同时，优化了代码结构和注释，提升了代码可读性和维护性。
+ (tag: v2.89, tag: v2.88, tag: v2.87, tag: v2.86) fix(ADC):修改ADCx_TRIG的初始化的位置
+ (tag: v2.85) 添加了三个新函数：SYS_ResetPeripheral用于复位所有外设，SYS_ResetPeripheralInternal用于复位除IO外的所有内部外设，SYS_ResetIO用于复位所有IO为默认值，并注明了不复位的寄存器类型。
+ (tag: v2.84) 解决EraseSector函数内对SYS_FLSE解锁后没有正确恢复的问题
+ (tag: v2.83) fix(TIMER):更改TIMER寄存器初始化顺序以避免部分功能异常
+ (tag: V2.82) 解决SYS_MclkChoice里对 SYS_MCLK_12M_RC和case SYS_MCLK_32K_RC配置错误的问题
+ (tag: V2.81) 更新dsp库函数
+ (tag: V2.80) 更新DSP库里时序锁的实现方式，改为在计算时关中断实现
+ (tag: v2.75) fix(CMP): 初始化中加入寄存器位清零操作
+ (tag: v2.74) fix(MCPWM): 调整MCPWM0_UPDATE在库函数中的位置
+ (tag: v2.73) fix(exti): 外部中断源勘误
+ (tag: v2.72) fix(OPA): 运放放大倍数，设置IT_OPA
+ (tag: v2.71) fix(WAKE): 休眠前关闭除WAKE_IRQn以外的其他中断
+ (tag: V2.7) 补充更新说明
+ (tag: v2.61) fix(SPI): 往SPI_TXDATA寄存器中写数触发SPI传输之前需要先判断CS信号是否为高电平
+ (tag: V2.6) 更正uart.c和uart.h半/全双工变量名称（DUPLEX ）
+ (tag: v2.51) fix(MCPWM): 添加PWM012、PWM345的独立配置初始化函数，以及单独的MCPWM分频配置等函数
+ (tag: V2.5) 更正uart.c内波特率配置
+ (tag: V2.4) CMP.c文件，函数CMP_Cmd（）内增加SYS_ModuleClockCmd(SYS_Module_CMP,state);//数字电路时钟使能。
+ (tag: V2.3) lks32mc07x_periph_driver V2.3 1、修正CAN发送函数内等待CAN发送完成判断条件，修正后可支持连续发生CAN数据，不需要在两帧之间加延时函数等待CAN发送完成再发送下一帧。 2、修改GPIO_WriteBit和GPIO_Write函数，操作GPIOx->BSRR和GPIOx->BRR进行GPIO置1和清零。
+ (tag: V2.1) 更新CAN ID滤波函数将CAN模式配置为复位模式后没有在还原为正常模式，导致程序不运行一次发送函数就无法接收问题。
+ (tag: V2.0) 更新dma.c，dma.h库函数事例注释和sif.c,sif.h库函数（之前的库函数不符合实际使用，目前全面修改工程应用可直接使用）。
+ (tag: V1.1) 增加定时器初始化函数内可以使能定时器

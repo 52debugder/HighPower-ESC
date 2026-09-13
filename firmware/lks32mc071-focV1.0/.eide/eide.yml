@@ -1,0 +1,343 @@
+version: "4.1"
+name: LK_StdPeriph
+type: ARM
+deviceName: LKS32MC071CBT8
+packDir: .pack/Linko/LKS07x.1.2.0
+srcDirs: []
+virtualFolder:
+  name: <virtual_root>
+  files: []
+  folders:
+    - name: Source
+      files:
+        - path: Source/main.c
+      folders: []
+    - name: AppFunction
+      files:
+        - path: AppFunction/hardware_init.c
+        - path: AppFunction/interrupt.c
+      folders: []
+    - name: Periph_Driver
+      files:
+        - path: LKS32MC07x_Periph_Driver/Source/lks32mc07x_adc.c
+        - path: LKS32MC07x_Periph_Driver/Source/lks32mc07x_cmp.c
+        - path: LKS32MC07x_Periph_Driver/Source/lks32mc07x_DMA.c
+        - path: LKS32MC07x_Periph_Driver/Source/lks32mc07x_dsp.c
+        - path: LKS32MC07x_Periph_Driver/Source/lks32mc07x_exti.c
+        - path: LKS32MC07x_Periph_Driver/Source/lks32MC07x_Flash.c
+        - path: LKS32MC07x_Periph_Driver/Source/lks32mc07x_gpio.c
+        - path: LKS32MC07x_Periph_Driver/Source/lks32mc07x_hall.c
+        - path: LKS32MC07x_Periph_Driver/Source/lks32mc07x_MCPWM.c
+        - path: LKS32MC07x_Periph_Driver/Source/lks32mc07x_sys.c
+        - path: LKS32MC07x_Periph_Driver/Source/lks32mc07x_tim.c
+        - path: LKS32MC07x_Periph_Driver/Source/lks32mc07x_uart.c
+        - path: LKS32MC07x_Periph_Driver/Source/startup_lks32mc07x.s
+        - path: LKS32MC07x_Periph_Driver/Source/lks32mc07x_nvr.lib
+        - path: LKS32MC07x_Periph_Driver/Source/lks32mc07x_can.c
+        - path: LKS32MC07x_Periph_Driver/Source/lks32mc07x_dac.c
+        - path: LKS32MC07x_Periph_Driver/Source/lks32mc07x_opa.c
+        - path: LKS32MC07x_Periph_Driver/Source/lks32mc07x_qep.c
+        - path: LKS32MC07x_Periph_Driver/Source/lks32mc07x_sif.c
+        - path: LKS32MC07x_Periph_Driver/Source/lks32mc07x_tmp.c
+        - path: LKS32MC07x_Periph_Driver/Source/lks32mc07x_wake.c
+      folders: []
+    - name: UserFoc
+      files:
+        - path: UserFoc/foc_lib/src/drv8353.c
+        - path: UserFoc/foc_lib/src/field_weakening.c
+        - path: UserFoc/foc_lib/src/foc.c
+        - path: UserFoc/foc_lib/src/foc_lks_hw.c
+        - path: UserFoc/foc_lib/src/foc_math.c
+        - path: UserFoc/foc_lib/src/hfi.c
+        - path: UserFoc/foc_lib/src/smo.c
+        - path: UserFoc/foc_lib/src/user_foc_hal.c
+      folders: []
+    - name: ::CMSIS
+      files: []
+      folders: []
+dependenceList: []
+outDir: build
+miscInfo:
+  uid: 1e7ee02ce17e88f16e9c295678a3b5f6
+targets:
+  Linko 07x Project:
+    cppPreprocessAttrs:
+      defineList: []
+      incList:
+        - .
+        - Include
+        - LKS32MC07x_Periph_Driver/Include
+        - FreeMaster
+        - RTT
+        - UserFoc/foc_lib/inc
+        - .pack/Linko/LKS07x.1.2.0/Device/Include
+        - .cmsis/include
+        - RTE/_Linko 07x Project
+      libList: []
+    excludeList: []
+    settings:
+      debugger: cortex-debug
+    toolchain: AC6
+    toolchainConfigMap:
+      AC6:
+        archExtensions: ""
+        cpuType: Cortex-M0
+        floatingPointHardware: none
+        options:
+          version: 3
+          afterBuildTasks: []
+          asm-compiler:
+            $use: asm-auto
+            defines: []
+            misc-controls: ""
+          beforeBuildTasks: []
+          c/cpp-compiler:
+            language-c: c99
+            language-cpp: c++11
+            link-time-optimization: false
+            one-elf-section-per-function: true
+            optimization: level-1
+            short-enums#wchar: true
+            warnings: ac5-like-warnings
+          global:
+            output-debug-info: enable
+            use-microLIB: false
+          linker:
+            $outputTaskExcludes:
+              - .bin
+            misc-controls: --diag_suppress=L6329
+            output-format: elf
+            ro-base: "0x00000000"
+            rw-base: "0x20000000"
+            xo-base: ""
+        scatterFilePath: ""
+        storageLayout:
+          RAM:
+            - id: 1
+              isChecked: false
+              mem:
+                size: "0x0"
+                startAddr: "0x0"
+              noInit: false
+              tag: RAM
+            - id: 2
+              isChecked: false
+              mem:
+                size: "0x0"
+                startAddr: "0x0"
+              noInit: false
+              tag: RAM
+            - id: 3
+              isChecked: false
+              mem:
+                size: "0x0"
+                startAddr: "0x0"
+              noInit: false
+              tag: RAM
+            - id: 1
+              isChecked: true
+              mem:
+                size: "0x3000"
+                startAddr: "0x20000000"
+              noInit: false
+              tag: IRAM
+            - id: 2
+              isChecked: false
+              mem:
+                size: "0x0"
+                startAddr: "0x0"
+              noInit: false
+              tag: IRAM
+          ROM:
+            - id: 1
+              isChecked: false
+              isStartup: false
+              mem:
+                size: "0x0"
+                startAddr: "0x0"
+              tag: ROM
+            - id: 2
+              isChecked: false
+              isStartup: false
+              mem:
+                size: "0x0"
+                startAddr: "0x0"
+              tag: ROM
+            - id: 3
+              isChecked: false
+              isStartup: false
+              mem:
+                size: "0x0"
+                startAddr: "0x0"
+              tag: ROM
+            - id: 1
+              isChecked: true
+              isStartup: true
+              mem:
+                size: "0x20000"
+                startAddr: "0x0"
+              tag: IROM
+            - id: 2
+              isChecked: false
+              isStartup: false
+              mem:
+                size: "0x0"
+                startAddr: "0x0"
+              tag: IROM
+        useCustomScatterFile: false
+    uploadConfigMap:
+      JLink:
+        baseAddr: ""
+        bin: ""
+        cpuInfo:
+          cpuName: "null"
+          vendor: "null"
+        otherCmds: ""
+        proType: 1
+        speed: 8000
+      STLink:
+        address: "0x0"
+        bin: ""
+        elFile: None
+        optionBytes: .eide/linko 07x project.st.option.bytes.ini
+        otherCmds: ""
+        proType: SWD
+        resetMode: default
+        runAfterProgram: true
+        speed: 4000
+    uploader: STLink
+  Linko 07x Project_ac6:
+    cppPreprocessAttrs:
+      defineList: []
+      incList:
+        - Include
+        - LKS32MC07x_Periph_Driver/Include
+        - FreeMaster
+        - RTT
+        - ac6
+        - UserFoc/foc_lib/inc
+        - .cmsis/include
+        - RTE/_Linko 07x Project_ac6
+      libList: []
+    excludeList: []
+    settings:
+      debugger: cortex-debug
+    toolchain: AC6
+    toolchainConfigMap:
+      AC6:
+        archExtensions: ""
+        cpuType: Cortex-M0
+        floatingPointHardware: none
+        options:
+          version: 3
+          afterBuildTasks: []
+          asm-compiler:
+            $use: asm-auto
+            defines: []
+            misc-controls: ""
+          beforeBuildTasks: []
+          c/cpp-compiler:
+            language-c: gnu11
+            language-cpp: c++11
+            link-time-optimization: false
+            one-elf-section-per-function: true
+            optimization: level-fast
+            short-enums#wchar: true
+            warnings: ac5-like-warnings
+          global:
+            output-debug-info: enable
+            use-microLIB: true
+          linker:
+            $outputTaskExcludes:
+              - .bin
+            misc-controls: --diag_suppress=L6329
+            output-format: elf
+            ro-base: "0x00000000"
+            rw-base: "0x20000000"
+            xo-base: ""
+        scatterFilePath: ""
+        storageLayout:
+          RAM:
+            - id: 1
+              isChecked: false
+              mem:
+                size: "0x0"
+                startAddr: "0x0"
+              noInit: false
+              tag: RAM
+            - id: 2
+              isChecked: false
+              mem:
+                size: "0x0"
+                startAddr: "0x0"
+              noInit: false
+              tag: RAM
+            - id: 3
+              isChecked: false
+              mem:
+                size: "0x0"
+                startAddr: "0x0"
+              noInit: false
+              tag: RAM
+            - id: 1
+              isChecked: true
+              mem:
+                size: "0x3000"
+                startAddr: "0x20000000"
+              noInit: false
+              tag: IRAM
+            - id: 2
+              isChecked: false
+              mem:
+                size: "0x0"
+                startAddr: "0x0"
+              noInit: false
+              tag: IRAM
+          ROM:
+            - id: 1
+              isChecked: false
+              isStartup: false
+              mem:
+                size: "0x0"
+                startAddr: "0x0"
+              tag: ROM
+            - id: 2
+              isChecked: false
+              isStartup: false
+              mem:
+                size: "0x0"
+                startAddr: "0x0"
+              tag: ROM
+            - id: 3
+              isChecked: false
+              isStartup: false
+              mem:
+                size: "0x0"
+                startAddr: "0x0"
+              tag: ROM
+            - id: 1
+              isChecked: true
+              isStartup: true
+              mem:
+                size: "0x20000"
+                startAddr: "0x0"
+              tag: IROM
+            - id: 2
+              isChecked: false
+              isStartup: false
+              mem:
+                size: "0x0"
+                startAddr: "0x0"
+              tag: IROM
+        useCustomScatterFile: false
+    uploadConfigMap:
+      JLink:
+        baseAddr: ""
+        bin: ""
+        cpuInfo:
+          cpuName: "null"
+          vendor: "null"
+        otherCmds: ""
+        proType: 1
+        speed: 8000
+    uploader: JLink
