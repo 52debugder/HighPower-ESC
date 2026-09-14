@@ -228,11 +228,11 @@ void MCPWM_init(void)
     pwm.TMR0 = (u16)(40U - ESC_PWM_PERIOD);
     pwm.TMR1 = (u16)(ESC_PWM_PERIOD - 1U);
 
-    pwm.CH0N_Polarity_INV = DISABLE;
+    pwm.CH0N_Polarity_INV = ENABLE;
     pwm.CH0P_Polarity_INV = DISABLE;
-    pwm.CH1N_Polarity_INV = DISABLE;
+    pwm.CH1N_Polarity_INV = ENABLE;
     pwm.CH1P_Polarity_INV = DISABLE;
-    pwm.CH2N_Polarity_INV = DISABLE;
+    pwm.CH2N_Polarity_INV = ENABLE;
     pwm.CH2P_Polarity_INV = DISABLE;
     pwm.Switch_CH0N_CH0P = DISABLE;
     pwm.Switch_CH1N_CH1P = DISABLE;
