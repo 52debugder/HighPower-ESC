@@ -124,7 +124,7 @@ void MCPWM_Init(MCPWM_InitTypeDef *MCPWM_InitStruct)
     MCPWM0_TH0 = MCPWM_InitStruct->TH0;
     MCPWM0_TH1 = MCPWM_InitStruct->TH1;
 
-    MCPWM0_SDCFG = MCPWM_InitStruct->TR0_UP_INTV | (MCPWM_InitStruct->TR0_T0_UpdateEN << 4) | (MCPWM_InitStruct->TR0_T1_UpdateEN << 5) | (MCPWM_InitStruct->TR0_AEC << 6) | (MCPWM_InitStruct->TR1_UP_INTV << 8) | (MCPWM_InitStruct->TR1_T0_UpdateEN << 12) | (MCPWM_InitStruct->TR1_T1_UpdateEN << 13) | (MCPWM_InitStruct->TR1_AEC << 14);
+    MCPWM0_SDCFG = MCPWM_InitStruct->TR0_UP_INTV | (MCPWM_InitStruct->TR0_T0_UpdateEN << 3) | (MCPWM_InitStruct->TR0_T1_UpdateEN << 4) | (MCPWM_InitStruct->TR0_AEC << 5) | (MCPWM_InitStruct->TR1_UP_INTV << 7) | (MCPWM_InitStruct->TR1_T0_UpdateEN << 11) | (MCPWM_InitStruct->TR1_T1_UpdateEN << 12) | (MCPWM_InitStruct->TR1_AEC << 13);
 
     MCPWM0_DTH00 = MCPWM_InitStruct->DeadTimeCH012N;
     MCPWM0_DTH01 = MCPWM_InitStruct->DeadTimeCH012P;

@@ -144,7 +144,7 @@ void ADC0_init(void)
     adc.IE = ADC_SF1_IE;
     adc.S1 = 7U;
     adc.S2 = 0U;
-    adc.IS1 = 0U;
+    adc.IS1 = 1U;
     adc.LTH = 0U;
     adc.HTH = 0U;
     adc.GEN = DISABLE;
@@ -158,7 +158,7 @@ void ADC0_init(void)
     ADC_CHN_GAIN_CFG(ADC0, CHN4, ESC_ADC_BUS_VOLTAGE_CHANNEL, ADC_GAIN3V6);
     ADC_CHN_GAIN_CFG(ADC0, CHN5, ESC_ADC_BUS_CURRENT_CHANNEL, ADC_GAIN3V6);
     ADC_CHN_GAIN_CFG(ADC0, CHN6, ESC_ADC_TEMP_CHANNEL, ADC_GAIN3V6);
-    ADC0_CFG |= BIT11;
+//    ADC0_CFG |= BIT11;
 }
 
 void ADC1_init(void)
@@ -188,7 +188,7 @@ void ADC1_init(void)
     ADC_CHN_GAIN_CFG(ADC1, CHN1, ESC_ADC_BEMF_U_CHANNEL, ADC_GAIN3V6);
     ADC_CHN_GAIN_CFG(ADC1, CHN2, ESC_ADC_BEMF_V_CHANNEL, ADC_GAIN3V6);
     ADC_CHN_GAIN_CFG(ADC1, CHN3, ESC_ADC_BEMF_W_CHANNEL, ADC_GAIN3V6);
-    ADC1_CFG |= BIT11;
+//    ADC1_CFG |= BIT11;
 }
 
 void MCPWM_init(void)
@@ -203,12 +203,12 @@ void MCPWM_init(void)
 
     pwm.BASE_CNT0_EN = ENABLE;
     pwm.TH0 = ESC_PWM_PERIOD;
-    pwm.TH00 = (u16)(-(s16)ESC_PWM_SAFE_DUTY);
-    pwm.TH01 = ESC_PWM_SAFE_DUTY;
-    pwm.TH10 = (u16)(-(s16)ESC_PWM_SAFE_DUTY);
-    pwm.TH11 = ESC_PWM_SAFE_DUTY;
-    pwm.TH20 = (u16)(-(s16)ESC_PWM_SAFE_DUTY);
-    pwm.TH21 = ESC_PWM_SAFE_DUTY;
+    pwm.TH00 = (u16)(-(s16)(ESC_PWM_SAFE_DUTY >> 2));
+    pwm.TH01 = ESC_PWM_SAFE_DUTY >> 2;
+    pwm.TH10 = (u16)(-(s16)(ESC_PWM_SAFE_DUTY) >> 2);
+    pwm.TH11 = ESC_PWM_SAFE_DUTY >> 2;
+    pwm.TH20 = (u16)(-(s16)(ESC_PWM_SAFE_DUTY) >> 2);
+    pwm.TH21 = ESC_PWM_SAFE_DUTY >> 2;
     pwm.MCPWM_WorkModeCH0 = MCPWM0_CENTRAL_PWM_MODE;
     pwm.MCPWM_WorkModeCH1 = MCPWM0_CENTRAL_PWM_MODE;
     pwm.MCPWM_WorkModeCH2 = MCPWM0_CENTRAL_PWM_MODE;
@@ -222,17 +222,17 @@ void MCPWM_init(void)
     pwm.TR0_T0_UpdateEN = ENABLE;
     pwm.TR0_T1_UpdateEN = DISABLE;
     pwm.TR0_AEC = DISABLE;
-    pwm.T0_Update0_INT_EN = DISABLE;
+    pwm.T0_Update0_INT_EN = ENABLE; // 
     pwm.T1_Update0_INT_EN = DISABLE;
     pwm.Update0_INT_EN = DISABLE;
-    pwm.TMR0 = (u16)(40U - ESC_PWM_PERIOD);
+    pwm.TMR0 = (u16)(10 - ESC_PWM_PERIOD);
     pwm.TMR1 = (u16)(ESC_PWM_PERIOD - 1U);
 
-    pwm.CH0N_Polarity_INV = ENABLE;
+    pwm.CH0N_Polarity_INV = DISABLE;
     pwm.CH0P_Polarity_INV = DISABLE;
-    pwm.CH1N_Polarity_INV = ENABLE;
+    pwm.CH1N_Polarity_INV = DISABLE;
     pwm.CH1P_Polarity_INV = DISABLE;
-    pwm.CH2N_Polarity_INV = ENABLE;
+    pwm.CH2N_Polarity_INV = DISABLE;
     pwm.CH2P_Polarity_INV = DISABLE;
     pwm.Switch_CH0N_CH0P = DISABLE;
     pwm.Switch_CH1N_CH1P = DISABLE;
@@ -308,7 +308,7 @@ void Hardware_init(void)
 
     GPIO_init();
     ADC0_init();
-    ADC1_init();
+//    ADC1_init();
     MCPWM_init();
     DMA_init();
     UART1_init();
@@ -324,6 +324,7 @@ void Hardware_init(void)
     NVIC_EnableIRQ(ADC1_IRQn);
     NVIC_EnableIRQ(MCPWM0_IRQn);
     SYS_WR_PROTECT = 0U;
+    __enable_irq();
 }
 
 void ESC_PWM_Enable(void)

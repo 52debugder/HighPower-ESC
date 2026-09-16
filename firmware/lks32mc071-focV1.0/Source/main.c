@@ -4,6 +4,7 @@
 #include "foc_hal.h"
 
 volatile uint32_t g_main_idle_count = 0U;
+uint32_t cnt;
 
 int main(void)
 {
@@ -20,12 +21,26 @@ int main(void)
         ESC_PWM_Disable();
         ESC_FocLoopEnable(0U);
     }
-
+    
     __enable_irq();
 
     for (;;)
     {
-        GPIO_SetBits(BOARD_LED_GPIO, BOARD_LED_PIN);
+        cnt++;
+        if(cnt < 20000)
+        {
+            GPIO_SetBits(BOARD_LED_GPIO, BOARD_LED_PIN);
+        }
+        else if(cnt < 40000)
+        {
+            GPIO_ResetBits(BOARD_LED_GPIO, BOARD_LED_PIN);
+        }
+        else 
+        {
+            cnt = 0;
+        }
+//        ADC_SoftTrgEN(ADC0, ENABLE); // 向 ADC0_SWT 写入 0x5AA5，触发一次第一段扫描
+        
         g_main_idle_count++;
         if (ESC_BoardFaultActive() != 0U)
         {

@@ -8,21 +8,31 @@ volatile uint32_t g_fault_irq_count = 0U;
 
 void ADC0_IRQHandler(void)
 {
-    ADC0_IF = ADC_ALL_IF;
-    g_adc0_irq_count++;
+    if(ADC_GetIRQFlag(ADC0,ADC_SF1_IF))
+	{
+	    ADC_ClearIRQFlag(ADC0,ADC_SF1_IF);
+        g_adc0_irq_count++;
 
-    if (ESC_FocLoopIsEnabled() != 0U)
-    {
-        if (ESC_BoardFaultActive() == 0U)
+        if (ESC_FocLoopIsEnabled() != 0U)
         {
-            (void)Foc_Loop(ESC_MOTOR_ID);
+            if (ESC_BoardFaultActive() == 0U)
+            {
+                foc_handle_t *foc_motor = Foc_GetStruct(1);
+                if (foc_motor->init_done == 1U)
+                    foc_motor->hal.adc_get_value(1, &foc_motor->i_adc_u, &foc_motor->i_adc_v, &foc_motor->i_adc_w);
+                (void)Foc_Loop(ESC_MOTOR_ID);
+            }
+            else
+            {
+                ESC_FocLoopEnable(0U);
+                ESC_PWM_Disable();
+            }
         }
-        else
-        {
-            ESC_FocLoopEnable(0U);
-            ESC_PWM_Disable();
-        }
-    }
+	}
+	else
+	{
+	    ADC_ClearIRQFlag(ADC0,ADC_ALL_IF);
+	}
 }
 
 void ADC1_IRQHandler(void)

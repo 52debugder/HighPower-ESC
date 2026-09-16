@@ -469,7 +469,7 @@ void FOC_SVPWM_Generate_Fx(foc_handle_t *motor)
     if (motor->pwm.duty_v > PWM_ARR) motor->pwm.duty_v = PWM_ARR;
     if (motor->pwm.duty_w > PWM_ARR) motor->pwm.duty_w = PWM_ARR;
 
-    // motor->hal.pwm_set_duty(motor->num, motor->pwm.duty_u, motor->pwm.duty_v, motor->pwm.duty_w);
+    motor->hal.pwm_set_duty(motor->num, motor->pwm.duty_u, motor->pwm.duty_v, motor->pwm.duty_w);
 }
 
 /*快速三角函数*/
