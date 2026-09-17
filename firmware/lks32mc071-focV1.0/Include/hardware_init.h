@@ -19,7 +19,7 @@ extern "C" {
 #define ESC_PWM_FREQ_HZ                  20000U
 #define ESC_PWM_PERIOD                   ((u16)(ESC_PWM_MCLK_HZ / (2UL * ESC_PWM_FREQ_HZ * (1UL << ESC_PWM_PRSC))))
 #define ESC_PWM_SAFE_DUTY                (ESC_PWM_PERIOD >> 2)
-#define ESC_DEADTIME_NS                  2000U
+#define ESC_DEADTIME_NS                  500U
 #define ESC_DEADTIME_TICKS               ((u16)(((unsigned long long)ESC_PWM_MCLK_HZ * (unsigned long long)ESC_DEADTIME_NS) / 1000000000ULL))
 #define ESC_PRE_DRIVER_POLARITY          P_HIGH__N_LOW
 

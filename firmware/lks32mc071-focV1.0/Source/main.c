@@ -46,7 +46,7 @@ int main(void)
         {
             ESC_FocLoopEnable(0U);
             ESC_PWM_Disable();
-            DRV8353_Disable();
+            //DRV8353_Disable();
         }
     }
 }

@@ -7,13 +7,13 @@
 extern "C" {
 #endif
 
-#define FOC_SENSOR_EN               1      // 使能传感器
+#define FOC_SENSOR_EN               0      // 使能传感器
 #define FOC_CLOSE_LOOP_EN           1         // 使能闭环
 #define FOC_POSITION_PI_EN          0
 #define FOC_SPEED_PI_EN             1        // 使能速度环
 #define FOC_PLL_ENABLE              1        // 使能锁相环
 #define HFI_ENABLE                  0          // 使能高频注入低速角度估计
-#define FOC_SMO_EN                  0        // 使能观测器
+#define FOC_SMO_EN                  1        // 使能观测器
 #define FOC_CLOSE_I_DEBUG_EN        0
 #define FOC_OPEN_I_DEBUG_EN         0
 #define FW_ENABLE                   0        // 使能弱磁

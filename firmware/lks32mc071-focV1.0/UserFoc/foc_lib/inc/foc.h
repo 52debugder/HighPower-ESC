@@ -39,6 +39,7 @@ foc_state_t Foc_Align_Loop(foc_handle_t *motor, float dt);
 foc_state_t Foc_Open_Loop(foc_handle_t *motor, float dt);
 foc_state_t Foc_Close_Loop(foc_handle_t *motor, float dt);
 void Foc_Update_SpeedLoop(uint8_t motor_num, float dt);
+void Foc_Update_PositionLoop(uint8_t motor_num, float dt);
 foc_state_t Foc_Stop(uint8_t motor_num);
 foc_state_t Foc_Set_Speed(uint8_t motor_num, float speed);
 foc_state_t Foc_Set_Position(uint8_t motor_num, float position_rad);

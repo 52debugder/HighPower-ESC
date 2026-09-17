@@ -178,10 +178,11 @@ void FOC_Clark_Transform_Fx(foc_handle_t *motor)
 
     motor->i_ab_fx.alpha = motor->i_uvw_fx.u;
     motor->i_ab_fx.beta = FOC_Q15Clamp(-((beta_input * FOC_INV_SQRT3_Q15 + FOC_Q15_ROUND) >> FOC_Q15_SHIFT));
-#if FOC_RUNTIME_FLOAT_SHADOW
-    motor->i_ab.alpha = FOC_Q15ToFloat(motor->i_ab_fx.alpha);
-    motor->i_ab.beta = FOC_Q15ToFloat(motor->i_ab_fx.beta);
-#endif
+    
+    #if FOC_RUNTIME_FLOAT_SHADOW
+        motor->i_ab.alpha = FOC_Q15ToFloat(motor->i_ab_fx.alpha);
+        motor->i_ab.beta = FOC_Q15ToFloat(motor->i_ab_fx.beta);
+    #endif
 }
 
 /**
@@ -205,10 +206,11 @@ void FOC_Park_Transform_Fx(foc_handle_t *motor)
 
     motor->i_dq_fx.d = FOC_Q15FromAccum((d + FOC_Q15_ROUND) >> FOC_Q15_SHIFT);
     motor->i_dq_fx.q = FOC_Q15FromAccum((q + FOC_Q15_ROUND) >> FOC_Q15_SHIFT);
-#if FOC_RUNTIME_FLOAT_SHADOW
-    motor->i_dq.d = FOC_Q15ToFloat(motor->i_dq_fx.d);
-    motor->i_dq.q = FOC_Q15ToFloat(motor->i_dq_fx.q);
-#endif
+
+    #if FOC_RUNTIME_FLOAT_SHADOW
+        motor->i_dq.d = FOC_Q15ToFloat(motor->i_dq_fx.d);
+        motor->i_dq.q = FOC_Q15ToFloat(motor->i_dq_fx.q);
+    #endif
 }
 
 /**
@@ -232,10 +234,11 @@ void FOC_InvPark_Transform_Fx(foc_handle_t *motor)
 
     motor->u_ab_fx.alpha = FOC_Q15FromAccum((alpha + FOC_Q15_ROUND) >> FOC_Q15_SHIFT);
     motor->u_ab_fx.beta = FOC_Q15FromAccum((beta + FOC_Q15_ROUND) >> FOC_Q15_SHIFT);
-#if FOC_RUNTIME_FLOAT_SHADOW
-    motor->u_ab.alpha = FOC_Q15ToFloat(motor->u_ab_fx.alpha);
-    motor->u_ab.beta = FOC_Q15ToFloat(motor->u_ab_fx.beta);
-#endif
+
+    #if FOC_RUNTIME_FLOAT_SHADOW
+        motor->u_ab.alpha = FOC_Q15ToFloat(motor->u_ab_fx.alpha);
+        motor->u_ab.beta = FOC_Q15ToFloat(motor->u_ab_fx.beta);
+    #endif
 }
 
 /**
@@ -595,10 +598,11 @@ void FOC_Updata_Trig(foc_handle_t *motor)
     motor->trig = FOC_Trig_Functions(motor->theta_fx);
     motor->sin_theta_fx = motor->trig.hSin;
     motor->cos_theta_fx = motor->trig.hCos;
-#if FOC_RUNTIME_FLOAT_SHADOW
-    motor->sin_theta = (float)motor->sin_theta_fx * FOC_Q15_TO_FLOAT;
-    motor->cos_theta = (float)motor->cos_theta_fx * FOC_Q15_TO_FLOAT;
-#endif
+
+    #if FOC_RUNTIME_FLOAT_SHADOW
+        motor->sin_theta = (float)motor->sin_theta_fx * FOC_Q15_TO_FLOAT;
+        motor->cos_theta = (float)motor->cos_theta_fx * FOC_Q15_TO_FLOAT;
+    #endif
 }
 
 float FOC_fmod(float *x, float y)

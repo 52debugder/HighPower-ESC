@@ -39,7 +39,7 @@ extern void SoftDelay(u32 cnt);
 #define DRV8353_SPI_TIMEOUT_COUNT       (60000U)
 
 #define DRV8353_DELAY_CS_SETUP          (4U)
-#define DRV8353_DELAY_AFTER_ENABLE      (3000U)
+#define DRV8353_DELAY_AFTER_ENABLE      (95602U)
 #define DRV8353_DELAY_RESET_LOW         (200U)
 #define DRV8353_DELAY_RESET_WAKE        (3000U)
 #define DRV8353_DELAY_BETWEEN_WORDS     (50U)
@@ -57,6 +57,8 @@ extern void SoftDelay(u32 cnt);
 #define DRV8353_GATE_IDRIVEN_SHIFT      (0U)
 #define DRV8353_GATE_IDRIVEP_100MA      (2U)
 #define DRV8353_GATE_IDRIVEN_200MA      (2U)
+#define DRV8353_GATE_IDRIVEP_300MA      (4U)
+#define DRV8353_GATE_IDRIVEN_600MA      (8U)
 
 #define DRV8353_LS_CBC                  (BIT10)
 #define DRV8353_LS_TDRIVE_SHIFT         (8U)
@@ -80,12 +82,12 @@ extern void SoftDelay(u32 cnt);
 
 #define DRV8353_DEFAULT_DRIVER_CONTROL  (DRV8353_DCR_PWM_MODE_6PWM)
 #define DRV8353_DEFAULT_GATE_HS         (DRV8353_GATE_LOCK_UNLOCK | \
-                                         (DRV8353_GATE_IDRIVEP_100MA << DRV8353_GATE_IDRIVEP_SHIFT) | \
-                                         (DRV8353_GATE_IDRIVEN_200MA << DRV8353_GATE_IDRIVEN_SHIFT))
+                                         (DRV8353_GATE_IDRIVEP_300MA << DRV8353_GATE_IDRIVEP_SHIFT) | \
+                                         (DRV8353_GATE_IDRIVEN_600MA << DRV8353_GATE_IDRIVEN_SHIFT))
 #define DRV8353_DEFAULT_GATE_LS         (DRV8353_LS_CBC | \
                                          (DRV8353_LS_TDRIVE_1000NS << DRV8353_LS_TDRIVE_SHIFT) | \
-                                         (DRV8353_GATE_IDRIVEP_100MA << DRV8353_GATE_IDRIVEP_SHIFT) | \
-                                         (DRV8353_GATE_IDRIVEN_200MA << DRV8353_GATE_IDRIVEN_SHIFT))
+                                         (DRV8353_GATE_IDRIVEP_300MA << DRV8353_GATE_IDRIVEP_SHIFT) | \
+                                         (DRV8353_GATE_IDRIVEN_600MA << DRV8353_GATE_IDRIVEN_SHIFT))
 #define DRV8353_DEFAULT_OCP_CONTROL     ((DRV8353_OCP_DEAD_TIME_100NS << DRV8353_OCP_DEAD_TIME_SHIFT) | \
                                          (DRV8353_OCP_MODE_RETRY << DRV8353_OCP_MODE_SHIFT) | \
                                          (DRV8353_OCP_DEG_4US << DRV8353_OCP_DEG_SHIFT) | \
