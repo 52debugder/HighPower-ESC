@@ -120,7 +120,7 @@
         <SetRegEntry>
           <Number>0</Number>
           <Key>ST-LINKIII-KEIL_SWO</Key>
-          <Name>-U2C0010000C2D343632525544 -O206 -SF500 -C0 -A0 -I0 -HNlocalhost -HP7184 -P1 -N00("ARM CoreSight SW-DP") -D00(0BB11477) -L00(0) -TO131090 -TC10000000 -TT10000000 -TP21 -TDS8007 -TDT0 -TDC1F -TIEFFFFFFFF -TIP8 -FO7 -FD20000000 -FC1000 -FN1 -FF0LKS32MC07x.FLM -FS00 -FL020000 -FP0($$Device:LKS32MC071CBT8$Flash\LKS32MC07x.FLM) -WA0 -WE0 -WVCE4 -WS2710 -WM0 -WP2 -WK0-R0</Name>
+          <Name>-U2C0010000C2D343632525544 -O206 -SF500 -C0 -A0 -I0 -HNlocalhost -HP7184 -P1 -N00("ARM CoreSight SW-DP") -D00(0BB11477) -L00(0) -TO131090 -TC10000000 -TT10000000 -TP21 -TDS8004 -TDT0 -TDC1F -TIEFFFFFFFF -TIP8 -FO15 -FD20000000 -FC1000 -FN1 -FF0LKS32MC07x.FLM -FS00 -FL020000 -FP0($$Device:LKS32MC071CBT8$Flash\LKS32MC07x.FLM) -WA0 -WE0 -WVCE4 -WS2710 -WM0 -WP2 -WK0-R0</Name>
         </SetRegEntry>
         <SetRegEntry>
           <Number>0</Number>
@@ -157,18 +157,18 @@
         <Bp>
           <Number>0</Number>
           <Type>0</Type>
-          <LineNumber>75</LineNumber>
+          <LineNumber>570</LineNumber>
           <EnabledFlag>1</EnabledFlag>
-          <Address>19822</Address>
+          <Address>11204</Address>
           <ByteObject>0</ByteObject>
           <HtxType>0</HtxType>
           <ManyObjects>0</ManyObjects>
           <SizeOfObject>0</SizeOfObject>
           <BreakByAccess>0</BreakByAccess>
           <BreakIfRCount>1</BreakIfRCount>
-          <Filename>.\UserFoc\foc_lib\src\foc_lks_hw.c</Filename>
+          <Filename>.\UserFoc\foc_lib\src\foc.c</Filename>
           <ExecCommand></ExecCommand>
-          <Expression>\\LK_StdPeriph\UserFoc/foc_lib/src/foc_lks_hw.c\75</Expression>
+          <Expression>\\LK_StdPeriph\UserFoc/foc_lib/src/foc.c\570</Expression>
         </Bp>
       </Breakpoint>
       <WatchWindow1>
@@ -190,7 +190,12 @@
         <Ww>
           <count>3</count>
           <WinNumber>1</WinNumber>
-          <ItemText>drv_status</ItemText>
+          <ItemText>g_main_idle_count</ItemText>
+        </Ww>
+        <Ww>
+          <count>4</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>motor</ItemText>
         </Ww>
       </WatchWindow1>
       <WatchWindow2>
@@ -204,7 +209,7 @@
         <Mm>
           <WinNumber>1</WinNumber>
           <SubType>0</SubType>
-          <ItemText>0x40010D4c</ItemText>
+          <ItemText>0x40010CB0</ItemText>
           <AccSizeX>0</AccSizeX>
         </Mm>
       </MemoryWindow1>
@@ -431,7 +436,7 @@
       <GroupNumber>2</GroupNumber>
       <FileNumber>2</FileNumber>
       <FileType>1</FileType>
-      <tvExp>0</tvExp>
+      <tvExp>1</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>.\AppFunction\hardware_init.c</PathWithFileName>
@@ -723,7 +728,7 @@
       <GroupNumber>4</GroupNumber>
       <FileNumber>25</FileNumber>
       <FileType>1</FileType>
-      <tvExp>1</tvExp>
+      <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>.\UserFoc\foc_lib\src\drv8353.c</PathWithFileName>

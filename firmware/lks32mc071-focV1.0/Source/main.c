@@ -8,10 +8,11 @@ uint32_t cnt;
 
 int main(void)
 {
-    __disable_irq();
+    //__disable_irq();
     Hardware_init();
+    //PWMOutputs(ENABLE);
 
-    (void)Foc_Init(ESC_MOTOR_ID, &foc_hal);
+    Foc_Init(ESC_MOTOR_ID, &foc_hal);
     if (g_drv8353_config_status == DRV8353_CONFIG_OK)
     {
         ESC_FocLoopEnable(1U);
@@ -22,31 +23,32 @@ int main(void)
         ESC_FocLoopEnable(0U);
     }
     
-    __enable_irq();
+    //__enable_irq();
 
     for (;;)
     {
-        cnt++;
-        if(cnt < 20000)
-        {
-            GPIO_SetBits(BOARD_LED_GPIO, BOARD_LED_PIN);
-        }
-        else if(cnt < 40000)
-        {
-            GPIO_ResetBits(BOARD_LED_GPIO, BOARD_LED_PIN);
-        }
-        else 
-        {
-            cnt = 0;
-        }
+//        cnt = cnt + 1;
+//        if(cnt < 20)
+//        {
+//            GPIO_SetBits(BOARD_LED_GPIO, BOARD_LED_PIN);
+//        }
+//        else if(cnt < 40)
+//        {
+//            GPIO_ResetBits(BOARD_LED_GPIO, BOARD_LED_PIN);
+//        }
+//        else 
+//        {
+//            cnt = 0;
+//        }
 //        ADC_SoftTrgEN(ADC0, ENABLE); // 向 ADC0_SWT 写入 0x5AA5，触发一次第一段扫描
         
         g_main_idle_count++;
+        SoftDelay(10);
         if (ESC_BoardFaultActive() != 0U)
         {
             ESC_FocLoopEnable(0U);
             ESC_PWM_Disable();
-            //DRV8353_Disable();
+            DRV8353_Disable();
         }
     }
 }

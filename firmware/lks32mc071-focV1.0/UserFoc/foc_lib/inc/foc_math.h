@@ -6,7 +6,7 @@
 #include "foc_utils.h"
 
 #if FOC_SMO_EN || HFI_ENABLE || FW_ENABLE || FOC_OPEN_I_DEBUG_EN || FOC_CLOSE_I_DEBUG_EN
-#define FOC_RUNTIME_FLOAT_SHADOW 1
+#define FOC_RUNTIME_FLOAT_SHADOW 0
 #else
 #define FOC_RUNTIME_FLOAT_SHADOW 0
 #endif

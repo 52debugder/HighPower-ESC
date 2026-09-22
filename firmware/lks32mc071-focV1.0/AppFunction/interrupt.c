@@ -10,6 +10,7 @@ void ADC0_IRQHandler(void)
 {
     if(ADC_GetIRQFlag(ADC0,ADC_SF1_IF))
 	{
+        GPIO_SetBits(BOARD_LED_GPIO, BOARD_LED_PIN);
 	    ADC_ClearIRQFlag(ADC0,ADC_SF1_IF);
         g_adc0_irq_count++;
 
@@ -20,7 +21,7 @@ void ADC0_IRQHandler(void)
                 foc_handle_t *foc_motor = Foc_GetStruct(1);
                 if (foc_motor->init_done == 1U)
                     foc_motor->hal.adc_get_value(1, &foc_motor->i_adc_u, &foc_motor->i_adc_v, &foc_motor->i_adc_w);
-                (void)Foc_Loop(ESC_MOTOR_ID);
+                Foc_Loop(1);
             }
             else
             {
@@ -28,6 +29,7 @@ void ADC0_IRQHandler(void)
                 ESC_PWM_Disable();
             }
         }
+        GPIO_ResetBits(BOARD_LED_GPIO, BOARD_LED_PIN);
 	}
 	else
 	{
@@ -43,22 +45,17 @@ void ADC1_IRQHandler(void)
 
 void MCPWM0_IRQHandler(void)
 {
-    uint32_t eif = MCPWM0_EIF;
-    uint32_t if0 = MCPWM0_IF0;
-    uint32_t if1 = MCPWM0_IF1;
-
     g_mcpwm0_irq_count++;
-
-    if (eif != 0U)
-    {
-        g_fault_irq_count++;
-        ESC_FocLoopEnable(0U);
-        ESC_PWM_Disable();
-        MCPWM0_EIF = eif;
-    }
-
-    MCPWM0_IF0 = if0;
-    MCPWM0_IF1 = if1;
+    if(MCPWM_GetIRQFlag(MCPWM0CNT0,MCPWM0CNT0_T1_IRQ_IF))
+		{
+			 //MCPWN0INTCnt ++;
+			 MCPWM_ClearIRQFlag(MCPWM0CNT0,MCPWM0CNT0_T1_IRQ_IF);
+		}
+		if(MCPWM_GetIRQFlag(MCPWM0CNT0,MCPWM0_FAIL1_IRQ_IF))
+		{
+			 //MCPWN0INTCnt1 ++;
+			 MCPWM_ClearIRQFlag(MCPWM0CNT0,MCPWM0_FAIL1_IRQ_IF);
+		}
 }
 
 void HALL0_IRQHandler(void)
