@@ -46,6 +46,11 @@ static float FOC_Abs(float x)
     return (x >= 0.0f) ? x : -x;
 }
 
+static foc_q15_t FOC_Abs_fx(foc_q15_t x)
+{
+    return (x >= 0) ? x : -x;
+}
+
 static int32_t FOC_Q15Abs32(foc_q15_t value)
 {
     return (value >= 0) ? value : -(int32_t)value;
@@ -72,6 +77,27 @@ static float FOC_FastAtan(float x)
 }
 
 /**
+ * @brief 定点化 atan，输入 Q15，输出 Q15 角度（对应 -π~π）
+ * @param x_q15 输入，Q15 格式，范围 -32768~32767
+ * @return Q15 角度，范围 -32768~32767，对应 -π~π
+ */
+static inline int16_t FOC_FastAtan_Q15(int16_t x_q15)
+{
+    int32_t ax = (x_q15 >= 0) ? x_q15 : -x_q15;
+    int16_t result;
+
+    // DSP0_X 固定为 1.0（Q15 用 32767 表示 1.0）
+    DSP0_X = 32767;
+    DSP0_Y = ax;
+    result = (int16_t)DSP0_ARCTAN;   // 读取角度，范围 0 ~ π/2 对应 0 ~ 16384
+
+    if (x_q15 < 0)
+        result = -result;
+
+    return result;
+}
+
+/**
  * @brief sat函数
  * 
  * @param x 
@@ -82,6 +108,20 @@ float FOC_sat(float x, float boundary)
 {
     if (x > boundary) return 1.0f;
     else if (x < -boundary) return -1.0f;
+    else return x / boundary;
+}
+
+/**
+ * @brief sat函数(q15)
+ * 
+ * @param x 
+ * @param boundary 
+ * @return float 
+ */
+foc_q15_t FOC_sat_fx(foc_q15_t x, foc_q15_t boundary)
+{
+    if (x > boundary) return 1;
+    else if (x < -boundary) return -1;
     else return x / boundary;
 }
 
@@ -109,6 +149,30 @@ inline float FOC_calc_dynamic_lpf(float speed_rpm)
 }
 
 /**
+ * @brief 动态反电动势低通滤波系数（Q15）
+ * 
+ * @param speed_rpm 转速
+ * @return float 滤波系数
+ */
+inline foc_q15_t FOC_calc_dynamic_lpf_fx(foc_q15_t speed_rpm)
+{
+    int32_t fc_target_q16 = (int32_t)((int64_t)speed_rpm * FOC_FC_TARGET_K_Q16);
+    
+    // 限制范围
+    if (fc_target_q16 < FOC_Q16_MIN) fc_target_q16 = FOC_Q16_MIN;
+    if (fc_target_q16 > FOC_Q16_MAX) fc_target_q16 = FOC_Q16_MAX;
+    
+    // 反算α。
+    // fc = lfp × fs / (2π × (1-lfp))
+    // lfp = 2π × fc × TS / (1 + 2π × fc × TS)
+    int32_t wc_ts_q16 = (int32_t)((_2_PI_TS_Q32 * (int64_t)fc_target_q16) >> 32);
+    int32_t lfp_q16 = (int32_t)(((int64_t)wc_ts_q16 << 16) / (65536 + wc_ts_q16));
+
+    // 转换为 Q15 输出
+    return (foc_q15_t)(lfp_q16 >> 1);
+}
+
+/**
  * @brief 动态相位补偿
  * 
  * @param omega_e_est pll的电角度
@@ -123,6 +187,25 @@ inline float calc_compensation_angle(float omega_e_est)
     float comp = FOC_FastAtan(fe / fc);
 
     if (omega_e_est < 0.0f)
+        comp = -comp;
+
+    return comp;
+}
+
+/**
+ * @brief 动态相位补偿(q15)
+ * 
+ * @param omega_e_est pll的电角度
+ * @return float 补偿的角度
+ */
+inline foc_q15_t calc_compensation_angle_fx(foc_q15_t omega_e_est, foc_q15_t lfp)
+{
+    foc_q15_t omega_e_est_abs = FOC_Abs(omega_e_est);
+    foc_q15_t fe = omega_e_est_abs / _2_PI_q15;
+    foc_q15_t fc = lfp / FOC_Q15Mul(_2_PI_TS_Q15, (32768 - lfp));
+    foc_q15_t comp = FOC_FastAtan_Q15(fe / fc);
+
+    if (omega_e_est < 0)
         comp = -comp;
 
     return comp;
@@ -578,6 +661,16 @@ float FOC_FastNorm(float alpha, float beta)
     float min_val = (abs_alpha > abs_beta) ? abs_beta : abs_alpha;
 
     return max_val + min_val * FOC_FAST_NORM_GAIN;
+}
+
+foc_q15_t FOC_FastNorm_fx(foc_q15_t alpha, foc_q15_t beta)
+{
+    int32_t abs_alpha = (alpha >= 0) ? alpha : -(int32_t)alpha;
+    int32_t abs_beta  = (beta  >= 0) ? beta  : -(int32_t)beta;
+    int32_t max_val = (abs_alpha > abs_beta) ? abs_alpha : abs_beta;
+    int32_t min_val = (abs_alpha > abs_beta) ? abs_beta  : abs_alpha;
+
+    return FOC_Q15Clamp(max_val + ((min_val * FOC_FAST_NORM_GAIN_Q15 + FOC_Q15_ROUND) >> FOC_Q15_SHIFT));
 }
 
 foc_q15_t FOC_FastNorm_Fx(foc_q15_t alpha, foc_q15_t beta)

@@ -15,7 +15,10 @@
 extern "C" {
 #endif
 
-
+#define DSP0_SC        (*(volatile uint32_t *)0x40013000)
+#define DSP0_X         (*(volatile uint32_t *)0x40013008)
+#define DSP0_Y         (*(volatile uint32_t *)0x4001300C)
+#define DSP0_ARCTAN    (*(volatile uint32_t *)0x4001301C)
 
 // 数学符号定义
 #define PI                      3.1415926535f
@@ -25,8 +28,11 @@ extern "C" {
 #define SQRT_3_2                0.866025403f
 
 float FOC_sat(float x, float boundary);
+foc_q15_t FOC_sat_fx(foc_q15_t x, foc_q15_t boundary);
 float FOC_calc_dynamic_lpf(float speed_rpm);
+foc_q15_t FOC_calc_dynamic_lpf_fx(foc_q15_t speed_rpm);
 float calc_compensation_angle(float omega_e_est);
+foc_q15_t calc_compensation_angle_fx(foc_q15_t omega_e_est, foc_q15_t lfp);
 void FOC_Motor_Cali_Offset(foc_handle_t *motor);
 void FOC_Clark_Transform(foc_handle_t *motor);
 void FOC_Clark_Transform_Fx(foc_handle_t *motor);
@@ -42,6 +48,7 @@ foc_Trig_Components FOC_Trig_Functions(int16_t hAngle);
 int16_t FOC_RadToQ15Angle(float theta);
 void FOC_GetSinCos(float theta, float *sin_theta, float *cos_theta);
 float FOC_FastNorm(float alpha, float beta);
+foc_q15_t FOC_FastNorm_fx(foc_q15_t alpha, foc_q15_t beta);
 foc_q15_t FOC_FastNorm_Fx(foc_q15_t alpha, foc_q15_t beta);
 void FOC_Updata_Trig(foc_handle_t *motor);
 float FOC_fmod(float *x, float y);

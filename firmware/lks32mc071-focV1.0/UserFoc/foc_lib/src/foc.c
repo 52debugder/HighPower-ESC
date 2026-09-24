@@ -735,7 +735,7 @@ foc_state_t Foc_Open_Loop(foc_handle_t *motor, float dt)
 
     #if FOC_SMO_EN // 观测器使能
         // 4. smo观测器推算转子位置，得到电角度和转速
-        SMO_Observer(motor, dt, MOTOR_STATE_OPEN);
+        SMO_Observer_fx(motor, dt, MOTOR_STATE_OPEN);
     #endif
 
     #if FOC_OPEN_I_DEBUG_EN // 开环电流环调试代码使能

@@ -29,6 +29,8 @@ extern "C" {
 
 #define FOC_CURRENT_BASE_A      CURRENT_LIMIT       // 电流基值
 #define FOC_VOLTAGE_BASE_V      CURRENT_PI_LIMIT    // 电压基值
+#define FOC_SPEED_BASE_RPM      10000.0f             // 速度基值(rpm)，速度环标幺化用
+#define FOC_SPEED_BASE_RAD_S    (FOC_SPEED_BASE_RPM / ERAD_TO_RPM_K)             // 速度基值(rpm)，速度环标幺化用
 
 // 电机通用参数（根据电机修改）
 // #define POLE_PAIRS              7.0f            // 电机极对数（示例：7对极）
@@ -56,7 +58,7 @@ extern "C" {
 #define BEMF_LPF                0.1f           // 反电动势低通滤波系数
 #define SPEED_OBSERBER_LPF      0.05f           // 观测器求得的速度的低通滤波系数
 #define COMP                    0.0f            // 偏移量
-#define OB_SPEED_LIMIT          10000.0f         // 观测速度限幅
+#define OB_SPEED_LIMIT          8000.0f         // 观测速度限幅
 #define PLL_INIT_LIMIT          1500.0f         // PLL积分限幅4,673.521850899743
 #define SAT_BOUNDARY            0.9f            // sat函数饱和边界
 
@@ -90,7 +92,6 @@ extern "C" {
 #define PI_KI_Q                 (MOTOR_R * CURRENT_LOOP_WC)
 
 // 速度环参数
-#define FOC_SPEED_BASE_RPM      3000.0f        // 速度基值(rpm)，速度环标幺化用
 #define PI_KP_SPEED             0.001f         // 速度PI比例系数(A/rpm，物理量)
 #define PI_KI_SPEED             0.0084f          // 速度PI积分系数(A/rpm/s，物理量)
 #define PI_LIMIT_SPEED          CURRENT_TARGET_LIMIT // 速度PI输出限幅(A)

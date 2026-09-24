@@ -12,6 +12,8 @@ extern "C" {
 extern float angle_error;
 void BEMF_Observer(foc_handle_t *motor, float dt, foc_mode_t mode);
 void SMO_Observer(foc_handle_t *motor, float dt, foc_mode_t mode);
+void SMO_Observer_fx(foc_handle_t *motor, float dt, foc_mode_t mode);
+void SMO_PLL_Update_Fx(foc_handle_t *motor, int16_t angle_error_q15, foc_mode_t mode);
 
 #ifdef __cplusplus
 }

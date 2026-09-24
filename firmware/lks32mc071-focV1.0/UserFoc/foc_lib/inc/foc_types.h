@@ -183,10 +183,12 @@ typedef struct
     foc_dq_t                i_dq;               // park变换后的电流(p.u.)
     foc_ab_t                u_ab;               // 反park后的电压(p.u.)
     foc_ab_t                e_ab;               // 观测器中的反电动势/切换项(p.u.)
+    foc_ab_fx_t             e_ab_fx;            // 观测器中的反电动势/切换项(q15)
     foc_ab_t                i_ab_hat;           // 观测器估计电流(p.u.)
     foc_dq_t                u_dq;               // dq轴电压(p.u.)
     foc_uvw_fx_t            i_uvw_fx;           // 三相电流(Q15)
     foc_ab_fx_t             i_ab_fx;            // clarke变换后的电流(Q15)
+    foc_ab_fx_t             i_ab_hat_fx;        // 观测器估计电流（q15）
     foc_dq_fx_t             i_dq_fx;            // park变换后的电流(Q15)
     foc_ab_fx_t             u_ab_fx;            // 反park后的电压(Q15)
     foc_dq_fx_t             u_dq_fx;            // dq轴电压(Q15)
@@ -202,6 +204,10 @@ typedef struct
     foc_pid_q16_t           pi_position_fx;     // 位置PI（Q16.16, rad -> rpm）
     foc_pid_t               pi_pll;             // 锁相环PI（电角rad/s）
 
+    int32_t                 pi_pll_integral_q16;      // PLL 积分器 Q16
+    int32_t                 speed_observer_q16;       // 观测速度 Q16
+    int16_t                 theta_observer_fx;        // 观测角度 Q16 turn-domain
+
     uint16_t                i_adc_u;            // ADC锁存后的相电流采样原始计数
     uint16_t                i_adc_v;            // ADC锁存后的相电流采样原始计数
     uint16_t                i_adc_w;            // ADC锁存后的相电流采样原始计数
@@ -209,8 +215,10 @@ typedef struct
     foc_angle16_t           theta_fx;           // 转子电角度(Q15 turn-domain)
     float                   speed;              // 电机机械转速(rpm)
     float                   theta_Observer;     // 观测器得到的转子电角度(rad)
+    foc_q15_t               theta_Observer_fx;  // 观测器得到的转子电角度(Q15)
     float                   theta_obs_prev;     // 上一拍观测角度，用于微分估速
     float                   speed_observer;     // 观测器得到的电角速度(rad/s)
+    foc_q15_t               speed_observer_fx;  // 观测器得到的电角速度(Q15)
     float                   speed_sign;         // 电机转子正转还是反转
 
     float                   id_fw;              // 弱磁注入的负id(p.u.)
