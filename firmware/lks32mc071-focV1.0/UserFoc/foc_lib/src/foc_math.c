@@ -91,12 +91,9 @@ float FOC_sat(float x, float boundary)
  * @param speed_rpm 转速
  * @return float 滤波系数
  */
-float FOC_calc_dynamic_lpf(float speed_rpm)
+inline float FOC_calc_dynamic_lpf(float speed_rpm)
 {
-    float fe = FOC_Abs(FOC_MechRpmToElecRadPerSec(speed_rpm)) / FOC_TWO_PI_F;
-    
-    // 目标：截止频率 = 3~5 倍电频率
-    float fc_target = 2.0f * fe;  
+    float fc_target = FOC_Abs(speed_rpm) * FOC_FC_TARGET_K;
     
     // 限制范围
     if (fc_target < 80.0f)  fc_target = 80.0f;   // 最低100Hz
@@ -105,7 +102,7 @@ float FOC_calc_dynamic_lpf(float speed_rpm)
     // 反算α。
     // fc = lfp × fs / (2π × (1-lfp))
     // lfp = 2π × fc × TS / (1 + 2π × fc × TS)
-    float wc_ts = _2_PI * fc_target * TS;
+    float wc_ts = _2_PI_TS * fc_target;
     float lfp = wc_ts / (1.0f + wc_ts);
     
     return lfp;
@@ -117,12 +114,12 @@ float FOC_calc_dynamic_lpf(float speed_rpm)
  * @param omega_e_est pll的电角度
  * @return float 补偿的角度
  */
-float calc_compensation_angle(float omega_e_est)
+inline float calc_compensation_angle(float omega_e_est)
 {
     float fe = FOC_Abs(omega_e_est) / _2_PI;
     float speed_rpm = FOC_ElecRadPerSecToMechRpm(FOC_Abs(omega_e_est));
     float actual_lfp = FOC_calc_dynamic_lpf(speed_rpm);
-    float fc = actual_lfp / (_2_PI * TS * (1.0f - actual_lfp));
+    float fc = actual_lfp / (_2_PI_TS * (1.0f - actual_lfp));
     float comp = FOC_FastAtan(fe / fc);
 
     if (omega_e_est < 0.0f)

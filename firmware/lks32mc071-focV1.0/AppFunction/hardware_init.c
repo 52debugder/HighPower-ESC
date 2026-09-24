@@ -136,10 +136,10 @@ void ADC0_init(void)
     adc.RE = 0U;
     adc.DATA_ALIGN = DISABLE;
     adc.CSMP = DISABLE;
-    adc.TCNT = 1U;
+    adc.TCNT = 0U;
     adc.TROVS = DISABLE;
     adc.OVSR = 0U;
-    adc.TRIG = ADC_TRIG_MCPWM0_T1;
+    adc.TRIG = ADC_TRIG_MCPWM0_T0;
     adc.NSMP = 0U;
     adc.IE = ADC_SF1_IE;
     adc.S1 = 7U;
@@ -222,8 +222,8 @@ void MCPWM_init(void)
     pwm.TR0_T0_UpdateEN = ENABLE;
     pwm.TR0_T1_UpdateEN = DISABLE;
     pwm.TR0_AEC = DISABLE;
-    pwm.T0_Update0_INT_EN = DISABLE; // 
-    pwm.T1_Update0_INT_EN = ENABLE;
+    pwm.T0_Update0_INT_EN = ENABLE; // 
+    pwm.T1_Update0_INT_EN = DISABLE;
     pwm.Update0_INT_EN = ENABLE;
     pwm.TMR0 = (u16)(40 - ESC_PWM_PERIOD);
     pwm.TMR1 = (u16)(ESC_PWM_PERIOD - 1U);

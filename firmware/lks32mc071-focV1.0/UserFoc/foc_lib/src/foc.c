@@ -559,7 +559,7 @@ foc_state_t Foc_Loop(uint8_t motor_num)
         #if FOC_SENSOR_EN // 传感器使能
             if (motor->state_timer > 4000 && motor->sensor_mech.vaild != 0.0f && motor->sensor_mech.zero_offset_locked != 0U)
         #else
-            if(motor->state_timer > 4000)
+            if(motor->state_timer > 5000)
         #endif
         {
             FOC_Align_Convert_Prepare(motor, motor_num);

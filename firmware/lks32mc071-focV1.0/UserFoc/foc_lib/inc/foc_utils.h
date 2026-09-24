@@ -59,6 +59,23 @@ extern "C" {
 #define FOC_SQRT3_2_Q15     28378
 #define FOC_FAST_NORM_GAIN_Q15 12288
 #define FOC_ADC_TO_CURRENT_PU_Q20 ((int32_t)(CURRENT_SCALE * ((float)(1 << 20) / FOC_CURRENT_BASE_A) + 0.5f))
+    
+#define FOC_FC_TARGET_K (2.0f * _2_PI * POLE_PAIRS * TS) / (60.0f * FOC_TWO_PI_F)
+
+/*滑膜观测器宏定义*/
+#define SMO_A (1.0f - MOTOR_R * TS / MOTOR_L)
+#define SMO_B (TS * FOC_VOLTAGE_BASE_V / (MOTOR_L * FOC_CURRENT_BASE_A))
+#define SMO_K_PU (SMO_K / FOC_VOLTAGE_BASE_V)
+#define SMO_SAT_BOUNDARY_PU (SAT_BOUNDARY / FOC_CURRENT_BASE_A)
+#define SMO_E_AMP_MIN (0.5f / FOC_VOLTAGE_BASE_V)
+#define SMO_E_AMP_LOW (0.1f / FOC_VOLTAGE_BASE_V)
+
+#define _2_PI_TS (_2_PI * TS)
+
+/*速度转换宏定义*/
+#define ERAD_TO_RPM_K (60.0f / (FOC_TWO_PI_F * POLE_PAIRS))
+#define RPM_TO_ERAD_K (FOC_TWO_PI_F * POLE_PAIRS / 60.0f)
+#define RAD_TO_RPM_K (60.0f / FOC_TWO_PI_F)
 
 static inline foc_q15_t FOC_Q15Clamp(int32_t value)
 {
@@ -180,7 +197,7 @@ static inline float FOC_Q16ToSpeedRpm(foc_accum_t speed_q16)
  */
 static inline float FOC_MechRpmToElecRadPerSec(float speed_rpm)
 {
-    return speed_rpm * FOC_TWO_PI_F * POLE_PAIRS / 60.0f;
+    return speed_rpm * RPM_TO_ERAD_K;
 }
 
 /**
@@ -191,7 +208,7 @@ static inline float FOC_MechRpmToElecRadPerSec(float speed_rpm)
  */
 static inline float FOC_ElecRadPerSecToMechRpm(float omega_elec)
 {
-    return omega_elec * 60.0f / (FOC_TWO_PI_F * POLE_PAIRS);
+    return omega_elec * ERAD_TO_RPM_K;
 }
 
 /**
@@ -202,7 +219,7 @@ static inline float FOC_ElecRadPerSecToMechRpm(float omega_elec)
  */
 static inline float FOC_MechRadPerSecToRpm(float omega_mech)
 {
-    return omega_mech * 60.0f / FOC_TWO_PI_F;
+    return omega_mech * RAD_TO_RPM_K;
 }
 
 /**
