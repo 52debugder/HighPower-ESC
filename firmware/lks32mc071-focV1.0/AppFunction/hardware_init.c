@@ -70,13 +70,13 @@ void GPIO_init(void)
     GPIO_StructInit(&gpio);
     gpio.GPIO_Mode = GPIO_Mode_OUT;
     gpio.GPIO_PuPd = GPIO_PuPd_NOPULL;
-    gpio.GPIO_Pin = DRV8353_EN_PIN;
-    GPIO_Init(DRV8353_EN_GPIO, &gpio);
-    GPIO_ResetBits(DRV8353_EN_GPIO, DRV8353_EN_PIN);
+    gpio.GPIO_Pin = DRV8323_EN_PIN;
+    GPIO_Init(DRV8323_EN_GPIO, &gpio);
+    GPIO_ResetBits(DRV8323_EN_GPIO, DRV8323_EN_PIN);
 
-    gpio.GPIO_Pin = DRV8353_NSCS_PIN;
-    GPIO_Init(DRV8353_NSCS_GPIO, &gpio);
-    GPIO_SetBits(DRV8353_NSCS_GPIO, DRV8353_NSCS_PIN);
+    gpio.GPIO_Pin = DRV8323_NSCS_PIN;
+    GPIO_Init(DRV8323_NSCS_GPIO, &gpio);
+    GPIO_SetBits(DRV8323_NSCS_GPIO, DRV8323_NSCS_PIN);
 
     gpio.GPIO_Pin = BOARD_LED_PIN;
     GPIO_Init(BOARD_LED_GPIO, &gpio);
@@ -85,8 +85,8 @@ void GPIO_init(void)
     GPIO_StructInit(&gpio);
     gpio.GPIO_Mode = GPIO_Mode_IN;
     gpio.GPIO_PuPd = GPIO_PuPd_UP;
-    gpio.GPIO_Pin = DRV8353_NFAULT_PIN;
-    GPIO_Init(DRV8353_NFAULT_GPIO, &gpio);
+    gpio.GPIO_Pin = DRV8323_NFAULT_PIN;
+    GPIO_Init(DRV8323_NFAULT_GPIO, &gpio);
 
     GPIO_PinAFConfig(GPIO2, GPIO_PinSource_9, AF5_SPI);
     GPIO_StructInit(&gpio);
@@ -99,7 +99,7 @@ void GPIO_init(void)
     GPIO_PinAFConfig(GPIO2, GPIO_PinSource_1, AF5_SPI);
     GPIO_StructInit(&gpio);
     gpio.GPIO_Mode = GPIO_Mode_OUT;
-    gpio.GPIO_PuPd = GPIO_PuPd_NOPULL;
+    gpio.GPIO_PuPd = GPIO_PuPd_UP;
     gpio.GPIO_Pin = GPIO_Pin_10 | GPIO_Pin_1;
     GPIO_Init(GPIO2, &gpio);
 
@@ -388,7 +388,7 @@ uint16_t ESC_ADC_GetTempRaw(void)
 
 uint8_t ESC_BoardFaultActive(void)
 {
-    if (GPIO_ReadInputDataBit(DRV8353_NFAULT_GPIO, DRV8353_NFAULT_PIN) == 0U)
+    if (GPIO_ReadInputDataBit(DRV8323_NFAULT_GPIO, DRV8323_NFAULT_PIN) == 0U)
         return 1U;
 
     if ((MCPWM0_EIF & (MCPWM_EIF_FAIL0 | MCPWM_EIF_FAIL1)) != 0U)

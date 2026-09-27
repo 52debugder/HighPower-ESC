@@ -58,8 +58,8 @@ extern "C" {
 #define FOC_Q15_MIN         (-32768)
 #define FOC_Q16_MAX         65535
 #define FOC_Q16_MIN         (-65535)
-#define FOC_Q32_MAX         4294967295
-#define FOC_Q32_MIN         (-4294967295)
+#define FOC_Q32_MAX         4294967295.0f
+#define FOC_Q32_MIN         (-4294967295.0f)
 #define FOC_INV_SQRT3_Q15   18919
 #define FOC_SQRT3_2_Q15     28378
 #define FOC_FAST_NORM_GAIN_Q15 12288
@@ -98,7 +98,7 @@ extern "C" {
 #define _2_PI_q15 (_2_PI * FOC_Q15_MAX)
 #define _2_PI_TS (_2_PI * TS)
 #define _2_PI_TS_Q15 (int16_t)(_2_PI_TS * FOC_Q15_MAX)
-#define _2_PI_TS_Q32 ((int64_t)(_2_PI_TS * FOC_Q32_MAX))
+#define _2_PI_TS_Q32 ((int64_t)((double)_2_PI_TS * FOC_Q32_MAX))
 
 /*速度转换宏定义*/
 #define ERAD_TO_RPM_K (60.0f / (FOC_TWO_PI_F * POLE_PAIRS))

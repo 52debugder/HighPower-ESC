@@ -1,6 +1,6 @@
 #include "foc_lks_hw.h"
 
-#include "drv8353.h"
+#include "drv8323.h"
 #include "foc_config.h"
 #include "hardware_init.h"
 
@@ -27,8 +27,8 @@ void foc_lks_hw_init(uint8_t motor)
 
     ESC_PWM_Disable();
     ESC_PWM_SetSafeDuty();
-    DRV8353_Init();
-    DRV8353_Disable();
+    DRV8323_Init();
+    DRV8323_Disable();
 }
 
 void foc_lks_hw_pwm_start(uint8_t motor)
@@ -65,14 +65,14 @@ void foc_lks_hw_drv_enable(uint8_t motor)
 
     ESC_PWM_Disable();
     ESC_PWM_SetSafeDuty();
-    DRV8353_Enable();
+    DRV8323_Enable();
 
-    drv_status = DRV8353_ConfigureDefault();
+    drv_status = DRV8323_ConfigureDefault();
 //    while(1)
 //    {
-//        DRV8353_ReadReg(0x03);
+//        DRV8323_ReadReg(0x03);
 //    }
-    if (drv_status != DRV8353_CONFIG_OK)
+    if (drv_status != DRV8323_CONFIG_OK)
     {
         ESC_PWM_Disable();
         return;
@@ -88,7 +88,7 @@ void foc_lks_hw_drv_disable(uint8_t motor)
 
     ESC_PWM_Disable();
     ESC_PWM_SetSafeDuty();
-    DRV8353_Disable();
+    DRV8323_Disable();
 }
 
 void foc_lks_hw_adc_get(uint8_t motor, uint16_t *adc_u, uint16_t *adc_v, uint16_t *adc_w)
@@ -140,6 +140,6 @@ void foc_lks_hw_fault_reset(uint8_t motor)
 
     ESC_PWM_Disable();
     ESC_PWM_SetSafeDuty();
-    DRV8353_ClearFault();
-    (void)DRV8353_ConfigureDefault();
+    DRV8323_ClearFault();
+    (void)DRV8323_ConfigureDefault();
 }

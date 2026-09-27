@@ -1,5 +1,5 @@
 #include "hardware_init.h"
-#include "drv8353.h"
+#include "drv8323.h"
 #include "foc.h"
 #include "foc_hal.h"
 
@@ -13,7 +13,7 @@ int main(void)
     //PWMOutputs(ENABLE);
 
     Foc_Init(ESC_MOTOR_ID, &foc_hal);
-    if (g_drv8353_config_status == DRV8353_CONFIG_OK)
+    if (g_drv8323_config_status == DRV8323_CONFIG_OK)
     {
         ESC_FocLoopEnable(1U);
     }
@@ -27,28 +27,29 @@ int main(void)
 
     for (;;)
     {
-//        cnt = cnt + 1;
-//        if(cnt < 20)
-//        {
-//            GPIO_SetBits(BOARD_LED_GPIO, BOARD_LED_PIN);
-//        }
-//        else if(cnt < 40)
-//        {
-//            GPIO_ResetBits(BOARD_LED_GPIO, BOARD_LED_PIN);
-//        }
-//        else 
-//        {
-//            cnt = 0;
-//        }
-//        ADC_SoftTrgEN(ADC0, ENABLE); // Ïò ADC0_SWT Ð´Èë 0x5AA5£¬´¥·¢Ò»´ÎµÚÒ»¶ÎÉ¨Ãè
+       cnt = cnt + 1;
+       if(cnt < 1000)
+       {
+           GPIO_SetBits(BOARD_LED_GPIO, BOARD_LED_PIN);
+       }
+       else if(cnt < 2000)
+       {
+           GPIO_ResetBits(BOARD_LED_GPIO, BOARD_LED_PIN);
+       }
+       else 
+       {
+           cnt = 0;
+       }
+//        ADC_SoftTrgEN(ADC0, ENABLE); // ï¿½ï¿½ ADC0_SWT Ð´ï¿½ï¿½ 0x5AA5ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½Îµï¿½Ò»ï¿½ï¿½É¨ï¿½ï¿½
         
         g_main_idle_count++;
+        Foc_Set_Speed(1, 300);
         SoftDelay(10);
         if (ESC_BoardFaultActive() != 0U)
         {
             ESC_FocLoopEnable(0U);
             ESC_PWM_Disable();
-            DRV8353_Disable();
+            DRV8323_Disable();
         }
     }
 }

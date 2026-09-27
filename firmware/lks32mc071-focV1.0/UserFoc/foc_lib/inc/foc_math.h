@@ -4,6 +4,7 @@
 #include "foc_types.h"
 #include "foc_config.h"
 #include "foc_utils.h"
+#include "lks32mc07x.h"
 
 #if FOC_SMO_EN || HFI_ENABLE || FW_ENABLE || FOC_OPEN_I_DEBUG_EN || FOC_CLOSE_I_DEBUG_EN
 #define FOC_RUNTIME_FLOAT_SHADOW 0
@@ -15,10 +16,10 @@
 extern "C" {
 #endif
 
-#define DSP0_SC        (*(volatile uint32_t *)0x40013000)
-#define DSP0_X         (*(volatile uint32_t *)0x40013008)
-#define DSP0_Y         (*(volatile uint32_t *)0x4001300C)
-#define DSP0_ARCTAN    (*(volatile uint32_t *)0x4001301C)
+//#define DSP0_SC        (*(volatile uint32_t *)0x40013000)
+//#define DSP0_X         (*(volatile uint32_t *)0x40013008)
+//#define DSP0_Y         (*(volatile uint32_t *)0x4001300C)
+//#define DSP0_ARCTAN    (*(volatile uint32_t *)0x4001301C)
 
 // 数学符号定义
 #define PI                      3.1415926535f

@@ -559,6 +559,11 @@
               <FileType>1</FileType>
               <FilePath>.\UserFoc\foc_lib\src\user_foc_hal.c</FilePath>
             </File>
+            <File>
+              <FileName>drv8323.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\UserFoc\foc_lib\src\drv8323.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -1118,6 +1123,11 @@
               <FileName>user_foc_hal.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\UserFoc\foc_lib\src\user_foc_hal.c</FilePath>
+            </File>
+            <File>
+              <FileName>drv8323.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\UserFoc\foc_lib\src\drv8323.c</FilePath>
             </File>
           </Files>
         </Group>

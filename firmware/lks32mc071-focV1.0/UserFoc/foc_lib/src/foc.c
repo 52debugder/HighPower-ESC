@@ -646,7 +646,7 @@ uint8_t Foc_Safe_Protect(float speed)
     #if FOC_SENSOR_EN
         safe_flag = 0;
     #else
-        safe_flag = fabsf(speed) >= SPEED_START_THRESHOLD;
+        safe_flag = fabsf(speed) <= SPEED_START_THRESHOLD;
     #endif
 
     return safe_flag;

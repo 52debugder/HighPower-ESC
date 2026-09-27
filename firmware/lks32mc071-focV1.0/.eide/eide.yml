@@ -51,6 +51,7 @@ virtualFolder:
         - path: UserFoc/foc_lib/src/hfi.c
         - path: UserFoc/foc_lib/src/smo.c
         - path: UserFoc/foc_lib/src/user_foc_hal.c
+        - path: UserFoc/foc_lib/src/drv8323.c
       folders: []
     - name: ::CMSIS
       files: []

@@ -16,7 +16,7 @@ extern "C" {
 #define ESC_MCU_MCLK_HZ                  96000000UL
 #define ESC_PWM_MCLK_HZ                  ESC_MCU_MCLK_HZ
 #define ESC_PWM_PRSC                     0U
-#define ESC_PWM_FREQ_HZ                  2500U
+#define ESC_PWM_FREQ_HZ                  20000U
 #define ESC_PWM_PERIOD                   ((u16)(ESC_PWM_MCLK_HZ / (2UL * ESC_PWM_FREQ_HZ * (1UL << ESC_PWM_PRSC))))
 #define ESC_PWM_SAFE_DUTY                (ESC_PWM_PERIOD >> 2)
 #define ESC_DEADTIME_NS                  1200U
@@ -41,6 +41,13 @@ extern "C" {
 #define ESC_ADC_BEMF_U_CHANNEL           ADC_CHANNEL_13
 #define ESC_ADC_BEMF_V_CHANNEL           ADC_CHANNEL_12
 #define ESC_ADC_BEMF_W_CHANNEL           ADC_CHANNEL_11
+
+#define DRV8323_EN_GPIO                  GPIO1
+#define DRV8323_EN_PIN                   GPIO_Pin_10
+#define DRV8323_NSCS_GPIO                GPIO2
+#define DRV8323_NSCS_PIN                 GPIO_Pin_12
+#define DRV8323_NFAULT_GPIO              GPIO2
+#define DRV8323_NFAULT_PIN               GPIO_Pin_3
 
 #define DRV8353_EN_GPIO                  GPIO1
 #define DRV8353_EN_PIN                   GPIO_Pin_10

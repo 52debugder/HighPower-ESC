@@ -17,12 +17,12 @@ void ADC0_IRQHandler(void)
         {
             if (ESC_BoardFaultActive() == 0U)
             {
-                GPIO_SetBits(BOARD_LED_GPIO, BOARD_LED_PIN);
+                //GPIO_SetBits(BOARD_LED_GPIO, BOARD_LED_PIN);
                 foc_handle_t *foc_motor = Foc_GetStruct(1);
                 if (foc_motor->init_done == 1U)
                     foc_motor->hal.adc_get_value(1, &foc_motor->i_adc_u, &foc_motor->i_adc_v, &foc_motor->i_adc_w);
                 Foc_Loop(1);
-                GPIO_ResetBits(BOARD_LED_GPIO, BOARD_LED_PIN);
+               //GPIO_ResetBits(BOARD_LED_GPIO, BOARD_LED_PIN);
             }
             else
             {
