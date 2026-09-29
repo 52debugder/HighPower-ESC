@@ -49,6 +49,8 @@ extern "C" {
 #define PI_KI_POSITION_PU   (PI_KI_POSITION / FOC_SPEED_BASE_RPM)                           // 标幺位置环ki (pu速度/rad/s)
 #define PI_LIMIT_POSITION_PU (PI_LIMIT_POSITION_RPM / FOC_SPEED_BASE_RPM)                   // 标幺位置环输出限幅(pu速度)
 
+#define PWM_VBUS_Q15 (PWM_VBUS * 0.1 / FOC_VOLTAGE_BASE_V * FOC_Q15_SCALE)                  
+
 #define FOC_Q15_SCALE       32768.0f
 #define FOC_Q16_16_SCALE    65536.0f
 #define FOC_Q32_SCALE       4294967296.0f

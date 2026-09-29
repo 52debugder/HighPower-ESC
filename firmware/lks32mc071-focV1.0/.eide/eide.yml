@@ -16,6 +16,7 @@ virtualFolder:
       files:
         - path: AppFunction/hardware_init.c
         - path: AppFunction/interrupt.c
+        - path: AppFunction/VOFA.c
       folders: []
     - name: Periph_Driver
       files:

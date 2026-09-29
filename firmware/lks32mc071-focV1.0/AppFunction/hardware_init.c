@@ -5,6 +5,7 @@
 #include "lks32mc07x_mcpwm.h"
 #include "lks32mc07x_sys.h"
 #include "lks32mc07x_uart.h"
+#include "drv8323.h"
 
 static volatile uint8_t g_esc_foc_loop_enabled = 0U;
 
@@ -272,7 +273,7 @@ void UART1_init(void)
     UART_InitTypeDef uart;
 
     UART_StructInit(&uart);
-    uart.BaudRate = 38400U;
+    uart.BaudRate = 115200;
     uart.WordLength = UART_WORDLENGTH_8b;
     uart.StopBits = UART_STOPBITS_1b;
     uart.FirstSend = UART_FIRSTSEND_LSB;
@@ -308,11 +309,12 @@ void Hardware_init(void)
     
 
     GPIO_init();
+    
     ADC0_init();
 //    ADC1_init();
     MCPWM_init();
 //    DMA_init();
-//    UART1_init();
+    UART1_init();
 //    CAN0_init();
 //    ESC_PWM_Disable();
     ESC_FocLoopEnable(0U);
@@ -339,9 +341,12 @@ void ESC_PWM_Enable(void)
     PWMOutputs(ENABLE);
 }
 
+uint32_t DRV8323_Fault_Status;
+
 void ESC_PWM_Disable(void)
 {
     PWMOutputs(DISABLE);
+    DRV8323_Fault_Status = DRV8323_ReadFaultStatus();
 }
 
 void ESC_PWM_SetDuty(uint16_t duty_u, uint16_t duty_v, uint16_t duty_w)

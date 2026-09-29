@@ -157,9 +157,9 @@
         <Bp>
           <Number>0</Number>
           <Type>0</Type>
-          <LineNumber>254</LineNumber>
+          <LineNumber>366</LineNumber>
           <EnabledFlag>1</EnabledFlag>
-          <Address>5100</Address>
+          <Address>4910</Address>
           <ByteObject>0</ByteObject>
           <HtxType>0</HtxType>
           <ManyObjects>0</ManyObjects>
@@ -168,7 +168,7 @@
           <BreakIfRCount>1</BreakIfRCount>
           <Filename>.\UserFoc\foc_lib\src\drv8323.c</Filename>
           <ExecCommand></ExecCommand>
-          <Expression>\\LK_StdPeriph\UserFoc/foc_lib/src/drv8323.c\254</Expression>
+          <Expression>\\LK_StdPeriph\UserFoc/foc_lib/src/drv8323.c\366</Expression>
         </Bp>
       </Breakpoint>
       <WatchWindow1>
@@ -221,6 +221,11 @@
           <count>9</count>
           <WinNumber>1</WinNumber>
           <ItemText>g_esc_foc_loop_enabled</ItemText>
+        </Ww>
+        <Ww>
+          <count>10</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>DRV8323_Fault_Status</ItemText>
         </Ww>
       </WatchWindow1>
       <WatchWindow2>
@@ -777,7 +782,7 @@
       <GroupNumber>4</GroupNumber>
       <FileNumber>27</FileNumber>
       <FileType>1</FileType>
-      <tvExp>0</tvExp>
+      <tvExp>1</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>.\UserFoc\foc_lib\src\foc.c</PathWithFileName>

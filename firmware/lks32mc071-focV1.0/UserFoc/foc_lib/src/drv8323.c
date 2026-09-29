@@ -55,17 +55,17 @@ extern void SoftDelay(u32 cnt);
 #define DRV8323_GATE_LOCK_UNLOCK        (3U << DRV8323_GATE_LOCK_SHIFT)
 #define DRV8323_GATE_IDRIVEP_SHIFT      (4U)
 #define DRV8323_GATE_IDRIVEN_SHIFT      (0U)
-#define DRV8323_GATE_IDRIVEP_100MA      (2U)
-#define DRV8323_GATE_IDRIVEN_200MA      (2U)
-#define DRV8323_GATE_IDRIVEP_300MA      (5U)
-#define DRV8323_GATE_IDRIVEN_600MA      (5U)
+#define DRV8323_GATE_IDRIVEP            (15U)
+#define DRV8323_GATE_IDRIVEN            (15U)
 
 #define DRV8323_LS_CBC                  (BIT10)
 #define DRV8323_LS_TDRIVE_SHIFT         (8U)
 #define DRV8323_LS_TDRIVE_1000NS        (1U)
+#define DRV8323_LS_TDRIVE_4000NS        (3U)
 
 #define DRV8323_OCP_DEAD_TIME_SHIFT     (8U)
 #define DRV8323_OCP_DEAD_TIME_100NS     (1U)
+#define DRV8323_OCP_DEAD_TIME_200NS     (2U)
 #define DRV8323_OCP_MODE_SHIFT          (6U)
 #define DRV8323_OCP_MODE_RETRY          (1U)
 #define DRV8323_OCP_DEG_SHIFT           (4U)
@@ -82,13 +82,13 @@ extern void SoftDelay(u32 cnt);
 
 #define DRV8323_DEFAULT_DRIVER_CONTROL  (DRV8323_DCR_PWM_MODE_6PWM)
 #define DRV8323_DEFAULT_GATE_HS         (DRV8323_GATE_LOCK_UNLOCK | \
-                                         (DRV8323_GATE_IDRIVEP_300MA << DRV8323_GATE_IDRIVEP_SHIFT) | \
-                                         (DRV8323_GATE_IDRIVEN_600MA << DRV8323_GATE_IDRIVEN_SHIFT))
+                                         (DRV8323_GATE_IDRIVEP << DRV8323_GATE_IDRIVEP_SHIFT) | \
+                                         (DRV8323_GATE_IDRIVEN << DRV8323_GATE_IDRIVEN_SHIFT))
 #define DRV8323_DEFAULT_GATE_LS         (DRV8323_LS_CBC | \
-                                         (DRV8323_LS_TDRIVE_1000NS << DRV8323_LS_TDRIVE_SHIFT) | \
-                                         (DRV8323_GATE_IDRIVEP_300MA << DRV8323_GATE_IDRIVEP_SHIFT) | \
-                                         (DRV8323_GATE_IDRIVEN_600MA << DRV8323_GATE_IDRIVEN_SHIFT))
-#define DRV8323_DEFAULT_OCP_CONTROL     ((DRV8323_OCP_DEAD_TIME_100NS << DRV8323_OCP_DEAD_TIME_SHIFT) | \
+                                         (DRV8323_LS_TDRIVE_4000NS << DRV8323_LS_TDRIVE_SHIFT) | \
+                                         (DRV8323_GATE_IDRIVEP << DRV8323_GATE_IDRIVEP_SHIFT) | \
+                                         (DRV8323_GATE_IDRIVEN << DRV8323_GATE_IDRIVEN_SHIFT))
+#define DRV8323_DEFAULT_OCP_CONTROL     ((DRV8323_OCP_DEAD_TIME_200NS << DRV8323_OCP_DEAD_TIME_SHIFT) | \
                                          (DRV8323_OCP_MODE_RETRY << DRV8323_OCP_MODE_SHIFT) | \
                                          (DRV8323_OCP_DEG_4US << DRV8323_OCP_DEG_SHIFT) | \
                                          DRV8323_OCP_VDS_LVL_1V)

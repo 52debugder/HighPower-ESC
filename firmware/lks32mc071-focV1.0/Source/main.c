@@ -27,20 +27,21 @@ int main(void)
 
     for (;;)
     {
-       cnt = cnt + 1;
-       if(cnt < 1000)
-       {
-           GPIO_SetBits(BOARD_LED_GPIO, BOARD_LED_PIN);
-       }
-       else if(cnt < 2000)
-       {
-           GPIO_ResetBits(BOARD_LED_GPIO, BOARD_LED_PIN);
-       }
-       else 
-       {
-           cnt = 0;
-       }
+    //    cnt = cnt + 1;
+    //    if(cnt < 10000)
+    //    {
+    //        GPIO_SetBits(BOARD_LED_GPIO, BOARD_LED_PIN);
+    //    }
+    //    else if(cnt < 20000)
+    //    {
+    //        GPIO_ResetBits(BOARD_LED_GPIO, BOARD_LED_PIN);
+    //    }
+    //    else 
+    //    {
+    //        cnt = 0;
+    //    }
 //        ADC_SoftTrgEN(ADC0, ENABLE); // �� ADC0_SWT д�� 0x5AA5������һ�ε�һ��ɨ��
+        UART_SendData(UART1, 0x12); // 发送数据
         
         g_main_idle_count++;
         Foc_Set_Speed(1, 300);

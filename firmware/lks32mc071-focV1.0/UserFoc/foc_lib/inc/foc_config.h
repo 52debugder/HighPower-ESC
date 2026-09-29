@@ -22,7 +22,7 @@ extern "C" {
 // PWM参数
 #define PWM_ARR                 2400         // 自动重载值
 #define PWM_SCALE               3.3f            // ADC参考电压
-#define PWM_VBUS                16.0f           // VBUS母线电压
+#define PWM_VBUS                12.0f           // VBUS母线电压
 #define ADC_RESOLUTION          4096        // 12位ADC分辨率
 // #define TS                      0.0001176f     // 采样时间间隔
 #define TS                      0.00005f        // 采样时间间隔 (20kHz ISR)
@@ -51,7 +51,7 @@ extern "C" {
 #define SAMPLE_RESISTOR         0.01f         // 采样电阻10mΩ
 
 // 开环参数
-#define OPEN_LOOP_UQ            (PWM_VBUS * 0.45f) // 开环q轴强拉力度
+#define OPEN_LOOP_UQ            (PWM_VBUS * 0.15f) // 开环q轴强拉力度
 
 // 观测器参数   
 #define SMO_K                   15.0f            // 滑模增益 (根据实际效果调试)

@@ -559,7 +559,7 @@ foc_state_t Foc_Loop(uint8_t motor_num)
         #if FOC_SENSOR_EN // 传感器使能
             if (motor->state_timer > 4000 && motor->sensor_mech.vaild != 0.0f && motor->sensor_mech.zero_offset_locked != 0U)
         #else
-            if(motor->state_timer > 5000)
+            if(motor->state_timer > 50000)
         #endif
         {
             FOC_Align_Convert_Prepare(motor, motor_num);
@@ -662,7 +662,7 @@ uint8_t Foc_Safe_Protect(float speed)
 foc_state_t Foc_Align_Loop(foc_handle_t *motor, float dt)
 {
     // 1. 定位阶段：给 D 轴施加固定电压，Q 轴为 0，强制转子对齐到 0 度
-    foc_set_udq_fx(motor, FOC_Q15FromVoltage(2.0f), 0);
+    foc_set_udq_fx(motor, FOC_Q15FromVoltage(1.0f), 0);
     Foc_SetElectricalAngle(motor, 0.0f);
     motor->pi_pll.integral = 0;
     motor->theta_Observer = 0.0f;
@@ -776,7 +776,7 @@ foc_state_t Foc_Open_Loop(foc_handle_t *motor, float dt)
         Foc_RefreshTrigCache(motor);
         FOC_Park_Transform_Fx(motor);
 
-        foc_set_udq_fx(motor, 0, FOC_Q15FromVoltagePu(FOC_VoltageToPu(PWM_VBUS * 0.35f)));
+        foc_set_udq_fx(motor, 0, PWM_VBUS_Q15);
 
         Foc_AdvanceOpenLoopAngle(motor, dt);
     #endif
