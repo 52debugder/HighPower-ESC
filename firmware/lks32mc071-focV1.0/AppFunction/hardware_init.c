@@ -273,7 +273,7 @@ void UART1_init(void)
     UART_InitTypeDef uart;
 
     UART_StructInit(&uart);
-    uart.BaudRate = 115200;
+    uart.BaudRate = 921600U;
     uart.WordLength = UART_WORDLENGTH_8b;
     uart.StopBits = UART_STOPBITS_1b;
     uart.FirstSend = UART_FIRSTSEND_LSB;

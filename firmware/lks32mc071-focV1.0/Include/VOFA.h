@@ -1,5 +1,5 @@
-#ifndef __HARDWARE_INIT_H
-#define __HARDWARE_INIT_H
+#ifndef __VOFA_H
+#define __VOFA_H
 
 #include <stdint.h>
 #include "basic.h"
@@ -9,12 +9,14 @@
 extern "C" {
 #endif
 
+static void UART_SendString(const char *str);
 void Print1_Motor_To_VOFA(float data, uint8_t length);
 void Print2_Motor_To_VOFA(float data1, float data2);
 void Print3_Motor_To_VOFA(float data1, float data2, float data3);
 void Print4_Motor_To_VOFA(float data1, float data2, float data3, float data4);
 void Print5_Motor_To_VOFA(float data1, float data2, float data3, float data4, float data5);
-void Print8_Motor_To_VOFA(float d1, float d2, float d3, float d4, float d5, float d6, float d7, float d8);
+void Print8_Motor_To_VOFA(float d1, float d2, float d3, float d4,
+                          float d5, float d6, float d7, float d8);
 
 #ifdef __cplusplus
 }
