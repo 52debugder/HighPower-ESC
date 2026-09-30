@@ -41,10 +41,12 @@ int main(void)
     //    else 
     //    {
     //        cnt = 0;
+                        
     //    }
-        // foc_handle_t *foc_motor = Foc_GetStruct(1);
+        foc_handle_t *foc_motor = Foc_GetStruct(1);
         // Print3_Motor_To_VOFA(foc_motor->i_adc_u, foc_motor->i_adc_v, foc_motor->i_adc_w);
-        UART_SendData(UART1, 0x01);
+        Print3_Motor_To_VOFA(1.1f, 2.2f, 3.3f);
+        // UART_SendData(UART1, 0x01);
         
         //baud = SYS_ReadMcuClk() / (SYS_CLK_DIV2 + 1) / (1 + 256 * UART1->DIVH + UART1->DIVL);
         

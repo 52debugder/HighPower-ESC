@@ -7,6 +7,7 @@ static void UART_SendString(const char *str)
 {
     while (*str != '\0')
     {
+        while(((UART1_STT & 0x0F) & UARTx_STT_TX_DONE_BIT) == 0);
         UART_SendData(UART1, (uint32_t)(uint8_t)(*str));
         str++;
     }

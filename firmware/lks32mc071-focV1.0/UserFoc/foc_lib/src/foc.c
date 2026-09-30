@@ -169,14 +169,18 @@ static void Foc_RefreshTrigCache(foc_handle_t *motor)
 
 static void Foc_AdvanceOpenLoopAngle(foc_handle_t *motor, float dt)
 {
-    float theta = motor->theta;
+    //float theta = motor->theta;
 
     if (motor->target_speed > 0.0f)
-        theta += OPEN_ELEC_SPEED * dt;
+        motor->theta_fx += OPEN_ELEC_SPEED_TS_Q15;
     else if (motor->target_speed < 0.0f)
-        theta -= OPEN_ELEC_SPEED * dt;
+        motor->theta_fx -= OPEN_ELEC_SPEED_TS_Q15;
 
-    Foc_SetElectricalAngle(motor, theta);
+    #if FOC_RUNTIME_FLOAT_SHADOW
+        motor->theta = motor->theta_fx * FOC_TWO_PI_F / 65536.0f;
+    #endif
+
+    //Foc_SetElectricalAngle(motor, theta);
 }
 
 static uint8_t Foc_LoadClosedLoopSensorAngle(foc_handle_t *motor, float dt)
